@@ -1,0 +1,5 @@
+API Endpoint Documentation:
+https://docs.google.com/document/d/1E76J6w825ci_hmm1GUoLQU1aFHv5IPqfsyOLH7dnZ58/edit
+
+Planned Database Schema (MongoDB):
+https://drawsql.app/teams/hack-reactor-14/diagrams/parkpark
