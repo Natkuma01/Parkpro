@@ -1,8 +1,14 @@
-# volumes:
+volumes:
+  parkpro:
+
 services:
   fastapi:
     environment:
       CORS_HOST: http://localhost:3000
+      MONGOHOST: mongo
+      MONGODATABASE: parkpro
+      MONGOUSER: parkpro
+      MONGOPASSWORD: parkpro
     build:
       context: api
       dockerfile: Dockerfile.dev
@@ -10,7 +16,6 @@ services:
       - 8000:8000
     volumes:
       - ./api:/app
-
   ghi:
     image: node:lts-bullseye
     command: /bin/bash run.sh
@@ -25,3 +30,25 @@ services:
       HOST: "0.0.0.0"
       PUBLIC_URL: http://localhost:3000
       REACT_APP_API_HOST: ${REACT_APP_API_HOST}
+  mongo:
+    image: mongo:latest
+    restart: always
+    volumes:
+      - parkpro:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: parkpro
+      MONGO_INITDB_ROOT_PASSWORD: parkpro
+
+  mongo-express:
+    image: mongo-express:latest
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: parkpro
+      ME_CONFIG_MONGODB_ADMINPASSWORD: parkpro
+      ME_CONFIG_MONGODB_URL: mongodb://parkpro:parkpro@mongo:27017/
+    depends_on:
+      - mongo
