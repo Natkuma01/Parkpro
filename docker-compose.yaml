@@ -9,6 +9,11 @@ services:
       MONGODATABASE: parkpro
       MONGOUSER: parkpro
       MONGOPASSWORD: parkpro
+      SIGNING_KEY: eyJhbGciOiJIUzI1NiJ9.ew0KICAic3ViIjogIjEyMzQ1Njc4OTAiLA0KICAibmFtZSI6ICJBbmlzaCBOYXRoIiwNCiAgImlhdCI6IDE1MTYyMzkwMjINCn0.76DOgett0mUp9nzu0k8M1j2WuHr1IT662q0RglAI7P0
+      # WAIT_HOSTS:
+      WAIT_BEFORE: 5
+      WAIT_TIMEOUT: 60
+      # URL: mongodb://parkpro:parkpro@mongo:27017/
     build:
       context: api
       dockerfile: Dockerfile.dev
