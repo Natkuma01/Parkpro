@@ -1,4 +1,6 @@
 from db import client, dbname
+from bson.objectid import ObjectId
+from pprint import pprint
 
 
 class CommentQueries:
@@ -23,3 +25,25 @@ class CommentQueries:
             result = self.get_comment(result.inserted_id)
             result["id"] = str(result["id"])
             return result
+
+
+def update_comment(self, id, comment):
+    db = client[dbname]
+    comment = comment.dict()
+    result = db.Comments.update_one(
+        {"_id": ObjectId(id)},
+        {"$set": {**comment}},
+        )
+    if result:
+        result = self.get_comment(ObjectId(id))
+        result["id"] = str(result["_id"])
+        return result
+
+
+def delete_comment(self, id):
+    db = client[dbname]
+    result = db.Comments.delete_one(
+        {"_id": ObjectId(id)},
+    )
+    if result:
+        return {"Comment deleted": True}

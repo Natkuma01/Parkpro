@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Response
 from queries.comment_queries import CommentQueries as q
-from models.comment_models import CommentIn, CommentOut, CommentsOut
+from models.comment_models import CommentIn, CommentOut
+from authenticator import authenticator
 
 router = APIRouter(
     prefix='/api',
@@ -8,18 +9,12 @@ router = APIRouter(
 )
 
 
-@router.get('/comments', response_model=CommentsOut)
-def comment_list(queries: q = Depends()):
-    return {
-        "comments": queries.get_all_comments()
-    }
-
-
 @router.get('/comment/{comment_id}', response_model=CommentOut)
 def get_comment(
     comment_id: str,
     response: Response,
     queries: q = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data)
 ):
     record = queries.get_comment(comment_id)
     if record is None:
@@ -29,10 +24,28 @@ def get_comment(
 
 
 @router.post('/comments', response_model=CommentOut)
-def create_comment(comment: CommentIn, queries: q = Depends()):
+def create_comment(
+    comment: CommentIn,
+    queries: q = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data)
+        ):
     return queries.create_comment(comment)
 
 
 @router.put('/comments/{comment_id}', response_model=CommentOut)
-def update_comment(comment: CommentIn):
-    pass
+def update_comment(
+    comment_id: str,
+    comment: CommentIn,
+    queries: q = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data)
+        ):
+    return queries.update_comment(comment_id, comment)
+
+
+@router.delete('/comments/{comment_id}', response_model={})
+def delete_comment(
+    comment_id: str,
+    queries: q = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data)
+        ):
+    return queries.delete_comment(comment_id)
