@@ -27,23 +27,23 @@ class CommentQueries:
             return result
 
 
-def update_comment(self, id, comment):
-    db = client[dbname]
-    comment = comment.dict()
-    result = db.Comments.update_one(
-        {"_id": ObjectId(id)},
-        {"$set": {**comment}},
+    def update_comment(self, id, comment):
+        db = client[dbname]
+        comment = comment.dict()
+        result = db.Comments.update_one(
+            {"_id": ObjectId(id)},
+            {"$set": {**comment}},
+            )
+        if result:
+            result = self.get_comment(ObjectId(id))
+            result["id"] = str(result["_id"])
+            return result
+
+
+    def delete_comment(self, id):
+        db = client[dbname]
+        result = db.Comments.delete_one(
+            {"_id": ObjectId(id)},
         )
-    if result:
-        result = self.get_comment(ObjectId(id))
-        result["id"] = str(result["_id"])
-        return result
-
-
-def delete_comment(self, id):
-    db = client[dbname]
-    result = db.Comments.delete_one(
-        {"_id": ObjectId(id)},
-    )
-    if result:
-        return {"Comment deleted": True}
+        if result:
+            return {"Comment deleted": True}

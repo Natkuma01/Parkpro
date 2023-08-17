@@ -7,8 +7,8 @@ class CommentIn(BaseModel):
     content: str
     posted: datetime
     parkCode: str
-    comments: list[str]
-    user_id: str
+    email: str
+    comments: list[dict] | None = None
 
 
 class CommentOut(BaseModel):
@@ -17,8 +17,8 @@ class CommentOut(BaseModel):
     content: str
     posted: datetime
     parkCode: str
-    comments: list[str]
-    user_id: str
+    email: str
+    comments: list[dict] | None = None
 
 
 class CommentsOut(BaseModel):
