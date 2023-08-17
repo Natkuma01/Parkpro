@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Response
 from queries.comment_queries import CommentQueries as q
 from models.comment_models import CommentIn, CommentOut, CommentsOut
-from models.shared import Error, Message
+from models.shared import Error, Deleted
 from typing import Union
 from authenticator import authenticator
 
@@ -50,11 +50,11 @@ def update_comment(
     return queries.update_comment(comment_id, comment, account_data)
 
 
-@router.delete('/comments/{comment_id}', response_model={})
+@router.delete('/comments/{comment_id}', response_model=Union[Deleted, Error])
 def delete_comment(
     comment_id: str,
     comment: CommentIn,
     queries: q = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data)
 ):
-    return queries.delete_comment(comment_id)
+    return queries.delete_comment(comment_id, account_data)

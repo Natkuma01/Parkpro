@@ -28,11 +28,7 @@ class CommentQueries:
 
     def update_comment(self, id, comment, account_data):
         new_comment = comment.dict()
-        print("comment2")
         old_comment = self.get_comment(ObjectId(id))
-        pprint(old_comment)
-        print("account_data")
-        pprint(account_data)
         if old_comment['username'] == account_data['email']:
             db = client[dbname]
             result = db.Comments.update_one(
@@ -46,10 +42,14 @@ class CommentQueries:
         else:
             return {"message": "User not the original author of the comment"}
 
-    def delete_comment(self, id):
-        db = client[dbname]
-        result = db.Comments.delete_one(
-            {"_id": ObjectId(id)},
-        )
-        if result:
-            return {"Comment deleted": True}
+    def delete_comment(self, id, account_data):
+        comment = self.get_comment(ObjectId(id))
+        if comment['username'] == account_data['email']:
+            db = client[dbname]
+            result = db.Comments.delete_one(
+                {"_id": ObjectId(id)},
+            )
+            if result:
+                return {"object_deleted": True}
+        else:
+            return {"message": "User not the original author of the comment"}
