@@ -1,7 +1,9 @@
 # authenticator.py
 import os
+from typing import Tuple, Union
 from fastapi import Depends
 from jwtdown_fastapi.authentication import Authenticator
+from pydantic import BaseModel
 from queries.accounts import AccountQueries
 from models.accounts import AccountOut, AccountOutWithPassword
 
@@ -12,7 +14,6 @@ class MyAuthenticator(Authenticator):
         email: str,
         accounts: AccountQueries,
     ):
-
         # Use your repo to get the account based on the
         # username (which could be an email)
         return accounts.get_account(email)
@@ -30,8 +31,6 @@ class MyAuthenticator(Authenticator):
         return account.hashed_password
 
     def get_account_data_for_cookie(self, account: AccountOut):
-        # Return the username and the data for the cookie.
-        # You must return TWO values from this method.
         return account.username, AccountOut(**account.dict())
 
 
