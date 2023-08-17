@@ -26,19 +26,25 @@ class CommentQueries:
             result["id"] = str(result["id"])
             return result
 
-
-    def update_comment(self, id, comment):
-        db = client[dbname]
-        comment = comment.dict()
-        result = db.Comments.update_one(
-            {"_id": ObjectId(id)},
-            {"$set": {**comment}},
-            )
-        if result:
-            result = self.get_comment(ObjectId(id))
-            result["id"] = str(result["_id"])
-            return result
-
+    def update_comment(self, id, comment, account_data):
+        new_comment = comment.dict()
+        print("comment2")
+        old_comment = self.get_comment(ObjectId(id))
+        pprint(old_comment)
+        print("account_data")
+        pprint(account_data)
+        if old_comment['username'] == account_data['email']:
+            db = client[dbname]
+            result = db.Comments.update_one(
+                {"_id": ObjectId(id)},
+                {"$set": {**new_comment}},
+                )
+            if result:
+                result = self.get_comment(ObjectId(id))
+                result["id"] = str(result["_id"])
+                return result
+        else:
+            return {"message": "User not the original author of the comment"}
 
     def delete_comment(self, id):
         db = client[dbname]

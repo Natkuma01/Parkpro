@@ -40,14 +40,14 @@ def create_comment(
     return queries.create_comment(comment)
 
 
-@router.put('/comments/{comment_id}', response_model=CommentOut)
+@router.put('/comments/{comment_id}', response_model=Union[CommentOut, Error])
 def update_comment(
     comment_id: str,
     comment: CommentIn,
     queries: q = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data)
 ):
-    return queries.update_comment(comment_id, comment)
+    return queries.update_comment(comment_id, comment, account_data)
 
 
 @router.delete('/comments/{comment_id}', response_model={})
