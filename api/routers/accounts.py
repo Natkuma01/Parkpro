@@ -8,9 +8,10 @@ from fastapi import (
 )
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
-
+from typing import Union
 from pydantic import BaseModel
-
+from queries.accounts import AccountQueries as q
+from models.shared import Deleted, Error
 from models.accounts import (
     AccountIn,
     AccountOut,
@@ -20,7 +21,7 @@ from models.accounts import (
     HttpError,
 )
 
-from queries.accounts import AccountQueries
+from queries.accounts import AccountQueries, AccountIn
 
 
 router = APIRouter()
@@ -72,3 +73,21 @@ async def create_account(
     token = await authenticator.login(response, request, form, accounts)
 
     return AccountToken(account=account, **token.dict())
+
+@router.put("/accounts/{id}", response_model=Union[AccountOut, Error])
+def update_account(
+    id: str,
+    account: AccountIn,
+    account_data : dict = Depends(authenticator.get_current_account_data),
+    queries: q = Depends(),
+):
+    return queries.update_account(account, account_data, id)
+
+@router.delete("/accounts/{id}", response_model=Union[Deleted, Error])
+def delete_account(
+    account_data: dict = Depends(authenticator.get_current_account_data),
+    queries: q = Depends(),
+    id = str,
+    ):
+
+    return queries.delete_account(account_data, id)
