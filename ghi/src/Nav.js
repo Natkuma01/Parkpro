@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from 'react-router-dom' 
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -13,8 +13,6 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import logo from "./images/logo.svg";
-
-
 
 function Nav() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -32,7 +30,7 @@ function Nav() {
   };
 
   return (
-    <AppBar position="static" style={{ backgroundColor:"black" }}>
+    <AppBar position="static" style={{ backgroundColor: "black" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -80,9 +78,7 @@ function Nav() {
               color: "inherit",
               textDecoration: "none",
             }}
-          >
-            LOGO
-          </Typography>
+          ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
 
           <Box sx={{ flexGrow: 0 }}>
