@@ -2,6 +2,8 @@ import { BrowserRouter } from "react-router-dom";
 import Nav from "./Nav";
 import React, { useState, useEffect } from "react";
 import CardList from "./CardList";
+import SignInSide from "./Login";
+import { AuthProvider } from "@galvanize-inc/jwtdown-for-react";
 
 const App = () => {
   const [parks, setParks] = useState([]);
@@ -24,12 +26,14 @@ const App = () => {
     fetchParks();
   }, []);
 
-  console.log(parks);
   return (
-    <BrowserRouter>
-      <Nav />
-      <CardList parks={parks} />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Nav />
+
+        <SignInSide />
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 
