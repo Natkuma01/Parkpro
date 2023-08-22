@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Unstable_Grid2";
-import Card from "./Card";
+import ParkCard from "./Card";
 
 function CardList({ parks }) {
   return (
@@ -7,7 +7,7 @@ function CardList({ parks }) {
       {parks.map((park) => {
         return (
           <Grid xs={12} sm={6} md={4}>
-            {park.fullName}
+            <ParkCard park={park} key={park.parkCode}/>
           </Grid>
         );
       })}
