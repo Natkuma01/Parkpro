@@ -49,7 +49,7 @@ class ParksQueries:
         parks_list = []
         for item in items:
             if item["designation"] == "National Park":
-                item["rating"] = None
+                item["rating"] = 0
                 item["comments"] = []
 
                 for rating in list(avergae_rating_list):
