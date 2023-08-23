@@ -14,6 +14,8 @@ import Signup from "./Signup";
 const App = () => {
   const [parks, setParks] = useState([]);
 
+  const baseUrl = "http://localhost:8000";
+
   useEffect(() => {
     async function fetchParks() {
       const nat_URL = "http://localhost:8000/api/parks";
@@ -33,7 +35,7 @@ const App = () => {
   }, []);
 
   return (
-    <AuthProvider>
+    <AuthProvider baseUrl={baseUrl}>
       <BrowserRouter>
         <Nav />
         <div className="container">

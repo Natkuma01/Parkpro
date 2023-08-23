@@ -83,11 +83,12 @@ def update_account(
 ):
     return queries.update_account(account, account_data, id)
 
+
 @router.delete("/accounts/{id}", response_model=Union[Deleted, Error])
 def delete_account(
     account_data: dict = Depends(authenticator.get_current_account_data),
     queries: q = Depends(),
-    id = str,
-    ):
+    id=str,
+):
 
     return queries.delete_account(account_data, id)
