@@ -26,7 +26,10 @@ class RatingQueries:
                 search,
                 {"$set": {**new_rating}},
             )
-            return result
+            if result:
+                result = db.Ratings.find_one(search)
+                result["id"] = str(result["_id"])
+                return result
         else:
             result = db.Ratings.insert_one(rating.dict())
             if result.inserted_id:
