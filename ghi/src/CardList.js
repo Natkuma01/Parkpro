@@ -7,7 +7,7 @@ function CardList({ parks }) {
       {parks.map((park) => {
         return (
           <Grid xs={12} sm={6} md={4}>
-            <ParkCard park={park} key={park.parkCode}/>
+            <ParkCard park={park} key={park.parkCode} />
           </Grid>
         );
       })}

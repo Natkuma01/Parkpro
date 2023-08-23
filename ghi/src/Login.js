@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import image1 from "./images/image1.jpg";
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -37,15 +37,14 @@ export default function SignInSide() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useToken();
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     login(username, password);
     event.target.reset();
-    <Navigate to="/parks" />;
+    navigate("/parks");
   };
-
-  const backgroundImage = "./images/5.jpg";
 
   return (
     <ThemeProvider theme={defaultTheme}>

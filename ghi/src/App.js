@@ -1,10 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Nav from "./Nav";
 import React, { useState, useEffect } from "react";
-import CardList from "./CardList";
 import SignInSide from "./Login";
 import { AuthProvider } from "@galvanize-inc/jwtdown-for-react";
-import Login from "./Login";
 import MainPage from "./MainPage";
 import Parks from "./Parks";
 import Visited from "./Visited";
@@ -33,6 +31,8 @@ const App = () => {
     }
     fetchParks();
   }, []);
+
+  console.log(parks);
 
   return (
     <AuthProvider baseUrl={baseUrl}>

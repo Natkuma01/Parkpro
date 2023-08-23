@@ -2,20 +2,24 @@ import * as React from "react";
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
-export default function BasicRating(rating) {
+export default function BasicRating({ rating, parkCode }) {
   const [value, setValue] = useState(rating);
+  const { token } = useAuthContext();
 
-  const updateRating = async (rating, parkCode) => {
+  const updateRating = async (value) => {
     const userRating = {};
-    userRating.rating = rating;
+    userRating.rating = value;
     userRating.parkCode = parkCode;
+    userRating.username = token;
 
-    const url = `http://localhost:8000/api/ratings/update`;
+    const url = `http://localhost:8000/api/ratings`;
     const fetchConfig = {
-      method: "put",
+      method: "post",
       body: JSON.stringify(userRating),
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     };
@@ -30,7 +34,7 @@ export default function BasicRating(rating) {
   };
 
   const handleChange = (event, newValue) => {
-    updateRating(event.target.value);
+    updateRating(event.target.value, parkCode);
     setValue(newValue);
   };
 

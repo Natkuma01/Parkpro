@@ -8,13 +8,14 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
-import useState from "react";
+
 import BasicRating from "./Rating";
 
 export default function ParkCard({ park }) {
   let randomNumber = Math.floor(Math.random() * (park.images.length - 1));
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }} key={park.parkCode}>
       <CardHeader title={park.fullName} />
       <CardMedia
         component="img"
@@ -23,7 +24,7 @@ export default function ParkCard({ park }) {
         alt={park.images[randomNumber].title}
       />
       <CardContent>
-        <BasicRating rating={park.rating} />
+        <BasicRating rating={park.rating} parkCode={park.parkCode} />
         <Typography variant="body2" color="text.secondary">
           {park.description}
         </Typography>
