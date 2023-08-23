@@ -17,18 +17,9 @@ def rating_list(queries: q = Depends()):
 
 
 @router.post('/ratings', response_model=Rating)
-def create_rating(
+def update_or_create(
     rating: Rating,
     queries: q = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data)
-        ):
-    return queries.create_rating(rating)
-
-
-@router.put('/ratings/update', response_model=Rating)
-def update_rating(
-    rating: Rating,
-    queries: q = Depends(),
-    account_data: dict = Depends(authenticator.get_current_account_data)
-        ):
-    return queries.update_rating(rating)
+):
+    return queries.update_or_create(rating, account_data)
