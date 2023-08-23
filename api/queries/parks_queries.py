@@ -28,27 +28,30 @@ class ParksQueries:
             ]
         )
 
+        average_rating_list = list(average_rating_list)
+
         comments_list = list(db.Comments.find())
         comments_list.sort(key=lambda x: x['posted'])
         comments_list.reverse()
 
         parks_list = []
-        print(len(items))
+        print(list(average_rating_list))
+
         for item in items:
             if item["designation"] == "National Park":
                 item["rating"] = 0
                 item["comments"] = []
-                for rating in list(average_rating_list):
-                    if rating["_id"] == item["parkCode"]:
-                        item["rating"] = rating['avgRating']
-                        print(item["rating"], item["parkCode"])
-                for comment in comments_list:
-                    if comment["parkCode"] == item["parkCode"]:
-                        comment["id"] = str(comment["_id"])
-                        del comment["_id"]
-                        item["comments"].append(comment)
-                        print(item["comments"], item["parkCode"])
-
                 parks_list.append(item)
+
+        for park in parks_list:
+            print(park["parkCode"])
+            for rating in average_rating_list:
+                if rating["_id"] == park["parkCode"]:
+                    park["rating"] = rating['avgRating']
+            for comment in comments_list:
+                if comment["parkCode"] == park["parkCode"]:
+                    comment["id"] = str(comment["_id"])
+                    del comment["_id"]
+                    park["comments"].append(comment)
 
         return parks_list
