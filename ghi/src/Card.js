@@ -15,28 +15,30 @@ export default function ParkCard({ park }) {
   let randomNumber = Math.floor(Math.random() * (park.images.length - 1));
 
   return (
-    <Card sx={{ maxWidth: 345 }} key={park.parkCode}>
-      <CardHeader title={park.fullName} />
-      <CardMedia
-        component="img"
-        height="194"
-        image={park.images[randomNumber].url}
-        alt={park.images[randomNumber].title}
-      />
-      <CardContent>
-        <BasicRating rating={park.rating} parkCode={park.parkCode} />
-        <Typography variant="body2" color="text.secondary">
-          {park.description}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
+      <Card sx={{ maxWidth: 345 }} key={park.parkCode}>
+        <CardHeader
+          title={park.fullName}
+        />
+        <CardMedia
+          component="img"
+          height="194"
+          image={park.images[randomNumber].url}
+          alt={park.images[randomNumber].title}
+        />
+        <CardContent>
+          <BasicRating rating={park.rating} parkCode={park.parkCode} />
+          <Typography variant="body2" color="text.secondary">
+            {park.description}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label="share">
+            <ShareIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
   );
 }
