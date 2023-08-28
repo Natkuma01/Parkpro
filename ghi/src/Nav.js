@@ -13,18 +13,20 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import logo from "./images/logo.svg";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 
 function Nav() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  const { token } = useAuthContext();
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -80,43 +82,51 @@ function Nav() {
             }}
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem component={Link} to="/profile">
-                Profile
-              </MenuItem>
-              <MenuItem component={Link} to="/bucket_list">
-                Bucket List
-              </MenuItem>
-              <MenuItem component={Link} to="/visited">
-                visited
-              </MenuItem>
-              <MenuItem component={Link} to="/logout">
-                Logout
-              </MenuItem>
-            </Menu>
-          </Box>
+            { token ?
+                <Box sx={{ flexGrow: 0 }}>
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                    </IconButton>
+                  </Tooltip>
+                  <Menu
+                    sx={{ mt: "45px" }}
+                    id="menu-appbar"
+                    anchorEl={anchorElUser}
+                    anchorOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "right",
+                    }}
+                    open={Boolean(anchorElUser)}
+                    onClose={handleCloseUserMenu}
+                  >
+                    <MenuItem component={Link} to="/profile">
+                      Profile
+                    </MenuItem>
+                    <MenuItem component={Link} to="/bucket_list">
+                      Bucket List
+                    </MenuItem>
+                    <MenuItem component={Link} to="/visited">
+                      visited
+                    </MenuItem>
+                    <MenuItem component={Link} to='/signout'>
+                      Logout
+                    </MenuItem>
+                  </Menu>
+                </Box>
+              :
+              <Box>
+                <Stack spacing={2} direction="row">
+                  <Button component={Link} to="/login" variant="contained" sx={{ backgroundColor:'white', color: 'black', ':hover':{ color:'white', backgroundColor:'#24ff00'} }}>Sign In</Button>
+                  <Button component={Link} to="/signup" variant="outlined" sx={{ color:'white', border:'white solid 1px', ':hover':{ color:'#24ff00', border:'#24FF00 solid 1px'} }}>Sign Up</Button>
+                </Stack>
+              </Box>
+            }
         </Toolbar>
       </Container>
     </AppBar>

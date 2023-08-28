@@ -13,25 +13,21 @@ import CommentList from "./comments/CommentList";
 const App = () => {
   const [parks, setParks] = useState([]);
   const [userData, setUserData] = useState({});
-
   const baseUrl = "http://localhost:8000";
-
-  useEffect(() => {
-    async function fetchParks() {
-      const nat_URL = `${baseUrl}/api/parks`;
-      try {
-        const response = await fetch(nat_URL);
-        if (!response.ok) {
-          console.error("Error getting park data");
-        } else {
-          const data = await response.json();
-          setParks(data.parks);
-        }
-      } catch (error) {
-        console.error(error);
+  async function fetchParks() {
+    const nat_URL = `${baseUrl}/api/parks`;
+    try {
+      const response = await fetch(nat_URL);
+      if (!response.ok) {
+        console.error("Error getting park data");
+      } else {
+        const data = await response.json();
+        setParks(data.parks);
       }
+    } catch (error) {
+      console.error(error);
     }
-
+  }
   useEffect(() => {
     fetchParks();
   }, []);
@@ -54,6 +50,6 @@ const App = () => {
       </BrowserRouter>
     </AuthProvider>
   );
-};
+  }
 
 export default App;
