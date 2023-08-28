@@ -13,23 +13,25 @@ class CommentQueries:
 
     def get_comment(self, id):
         db = client[dbname]
-        result = db.Comments.find_one({"_id": id})
+        result = db.Comments.find_one({"_id": ObjectId(id)})
         if result:
-            result["id"] = result["_id"]
+            result["id"] = str(result["_id"])
+            del result["_id"]
             return result
 
-    def create_comment(self, comment):
+    def create_comment(self, comment, account_data):
         db = client[dbname]
-        result = db.Comments.insert_one(comment.dict())
+        comment = comment.dict()
+        comment["username"] = account_data["username"]
+        result = db.Comments.insert_one(comment)
         if result.inserted_id:
             result = self.get_comment(result.inserted_id)
-            result["id"] = str(result["id"])
             return result
 
     def update_comment(self, id, comment, account_data):
         new_comment = comment.dict()
         old_comment = self.get_comment(ObjectId(id))
-        if old_comment['username'] == account_data['email']:
+        if old_comment['username'] == account_data['username']:
             db = client[dbname]
             result = db.Comments.update_one(
                 {"_id": ObjectId(id)},
@@ -37,18 +39,18 @@ class CommentQueries:
                 )
             if result:
                 result = self.get_comment(ObjectId(id))
-                result["id"] = str(result["_id"])
                 return result
         else:
             return {"message": "User not the original author of the comment"}
 
     def delete_comment(self, id, account_data):
         comment = self.get_comment(ObjectId(id))
-        if comment['username'] == account_data['email']:
+        if comment['username'] == account_data['username']:
             db = client[dbname]
             result = db.Comments.delete_one(
                 {"_id": ObjectId(id)},
             )
+
             if result:
                 return {"object_deleted": True}
         else:

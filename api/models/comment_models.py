@@ -6,9 +6,9 @@ class CommentIn(BaseModel):
     title: str
     content: str
     posted: datetime
-    parkCode: str
-    username: str
-    comments: list[dict] | None = None
+    parkCode: str | None
+    username: str | None
+    parent_id: str | None
 
 
 class CommentOut(BaseModel):
@@ -16,9 +16,9 @@ class CommentOut(BaseModel):
     title: str
     content: str
     posted: datetime
-    parkCode: str
-    username: str
-    comments: list[dict] | None = None
+    parkCode: str | None
+    username: str | None
+    parent_id: str | None
 
 
 class CommentsOut(BaseModel):

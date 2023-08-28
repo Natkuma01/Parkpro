@@ -18,13 +18,14 @@ def get_all_TripNotes(queries: q = Depends()):
     }
 
 
-@router.get('/trip_note/{trip_note_id}', response_model=TripNoteOut)
+@router.get('/trip_note/{parkCode}', response_model=TripNoteOut)
 def get_TripNote(
-    trip_note_id: str,
+    parkCode: str,
     response: Response,
     queries: q = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
-    record = queries.get_trip_note(trip_note_id)
+    record = queries.get_trip_note(parkCode, account_data)
     if record is None:
         response.status_code = 404
     else:

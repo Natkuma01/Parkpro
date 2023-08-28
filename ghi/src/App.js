@@ -8,14 +8,17 @@ import Parks from "./Parks";
 import Visited from "./Visited";
 import WishList from "./Wishlist";
 import Signup from "./Signup";
+import CommentList from "./comments/CommentList";
 
 const App = () => {
   const [parks, setParks] = useState([]);
+  const [userData, setUserData] = useState({});
 
   const baseUrl = "http://localhost:8000";
 
-  async function fetchParks() {
-      const nat_URL = "http://localhost:8000/api/parks";
+  useEffect(() => {
+    async function fetchParks() {
+      const nat_URL = `${baseUrl}/api/parks`;
       try {
         const response = await fetch(nat_URL);
         if (!response.ok) {
@@ -45,6 +48,7 @@ const App = () => {
             <Route path="/visited" element={<Visited parks={parks} />} />
             <Route path="/login" element={<SignInSide />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/comments" element={<CommentList user={userData} />} />
           </Routes>
         </div>
       </BrowserRouter>

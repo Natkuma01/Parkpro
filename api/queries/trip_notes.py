@@ -10,9 +10,9 @@ class TripNoteQueries:
             value["id"] = str(value["_id"])
         return result
 
-    def get_trip_note(self, id):
+    def get_trip_note(self, id, account_data):
         db = client[dbname]
-        result = db.TripNotes.find_one({"_id": id})
+        result = db.TripNotes.find_one({"parkCode": parkCode, "username": account_data.username})
         if result:
             result["id"] = result["_id"]
             return result

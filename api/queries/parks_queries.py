@@ -35,7 +35,6 @@ class ParksQueries:
         comments_list.reverse()
 
         parks_list = []
-        print(list(average_rating_list))
 
         for item in items:
             if item["designation"] == "National Park":
@@ -44,7 +43,6 @@ class ParksQueries:
                 parks_list.append(item)
 
         for park in parks_list:
-            print(park["parkCode"])
             for rating in average_rating_list:
                 if rating["_id"] == park["parkCode"]:
                     park["rating"] = rating['avgRating']
