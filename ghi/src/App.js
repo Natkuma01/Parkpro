@@ -14,8 +14,7 @@ const App = () => {
 
   const baseUrl = "http://localhost:8000";
 
-  useEffect(() => {
-    async function fetchParks() {
+  async function fetchParks() {
       const nat_URL = "http://localhost:8000/api/parks";
       try {
         const response = await fetch(nat_URL);
@@ -29,10 +28,10 @@ const App = () => {
         console.error(error);
       }
     }
+
+  useEffect(() => {
     fetchParks();
   }, []);
-
-  console.log(parks);
 
   return (
     <AuthProvider baseUrl={baseUrl}>
@@ -41,7 +40,7 @@ const App = () => {
         <div className="container">
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/parks" element={<Parks parks={parks} />} />
+            <Route path="/parks" element={<Parks parks={parks} fetchParks={fetchParks} />} />
             <Route path="/wishlist" element={<WishList parks={parks} />} />
             <Route path="/visited" element={<Visited parks={parks} />} />
             <Route path="/login" element={<SignInSide />} />
