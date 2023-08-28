@@ -2,31 +2,22 @@ import Grid from "@mui/material/Unstable_Grid2";
 import ParkCard from "./Card";
 import FilterForm from "./FilterForm"
 import {useState, useEffect} from "react"
+import states from 'states-us'
 
-function CardList( { parks}) {
+function CardList( { parks, fetchParks }) {
 
-  const [parkList, setParkList] = useState(parks);
+  const listOfStates = states.filter(entry => !entry.territory);
+  const [state, setState] = useState('');
 
   useEffect(() => {
-    setParkList(parks)
+    fetchParks()
   }, []);
-  console.log(parkList)
-
-  function filter(state) {
-    if (state == "All" ) {
-      setParkList(parks)
-    } else {
-      let filtered = parks.filter(park => park.states==state)
-      setParkList(filtered)
-    }
-
-  }
 
   return (
           <>
-          <FilterForm parks={parks} filter={filter}/>
+          <FilterForm  states={listOfStates} setState={setState}/>
           <Grid container spacing={{ xs: 2, md: 3 }} columnSpacing={{ xs: 1, sm: 2, md: 3}}>
-            {parkList.map((park, index) => (
+            {parks.filter(park => state ? park.states.split(",").includes(state): park).map((park, index) => (
               <Grid xs={2} sm={4} md={4} key={index}>
                 <ParkCard park={park} key={park.parkCode} />
               </Grid>
