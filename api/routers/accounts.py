@@ -33,6 +33,13 @@ async def get_protected(
 ):
     return True
 
+@router.get("/api/user", response_model=AccountOut)
+async def get_user(
+    account_data: dict = Depends(authenticator.get_current_account_data),
+    queries: q = Depends(),
+):
+    return queries.get_user(account_data)
+
 
 @router.get("/token", response_model=AccountToken | None)
 async def get_token(
@@ -79,7 +86,7 @@ async def create_account(
 def update_account(
     id: str,
     account: AccountIn,
-    account_data : dict = Depends(authenticator.get_current_account_data),
+    account_data: dict = Depends(authenticator.get_current_account_data),
     queries: q = Depends(),
 ):
     return queries.update_account(account, account_data, id)
