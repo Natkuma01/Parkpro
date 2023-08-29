@@ -13,10 +13,17 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import logo from "./images/logo.svg";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import useToken from "@galvanize-inc/jwtdown-for-react";
+import { useNavigate } from "react-router-dom";
 
 function Nav() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
+
+  const { token } = useAuthContext;
+  const { logout } = useToken();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -27,6 +34,11 @@ function Nav() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = async () => {
+    logout();
+    navigate("/login");
   };
 
   return (
@@ -50,6 +62,11 @@ function Nav() {
           >
             <img src={logo} alt="logo" />
           </Typography>
+          {token ? (
+            <Typography sx={{ color: "white" }}>Logged in</Typography>
+          ) : (
+            <Typography sx={{ color: "white" }}>Logged out</Typography>
+          )}
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
@@ -80,7 +97,7 @@ function Nav() {
             }}
           ></Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
-
+          {token && <div>Logged In</div>}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -112,9 +129,7 @@ function Nav() {
               <MenuItem component={Link} to="/visited">
                 visited
               </MenuItem>
-              <MenuItem component={Link} to="/logout">
-                Logout
-              </MenuItem>
+              <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </Box>
         </Toolbar>
