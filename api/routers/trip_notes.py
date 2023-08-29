@@ -59,3 +59,11 @@ def delete_trip_note(
     account_data: dict = Depends(authenticator.get_current_account_data)
 ):
     return queries.delete_trip_note(trip_note_id, account_data)
+
+@router.post('/note', response_model=TripNoteOut)
+def update_or_create(
+    note: TripNoteIn,
+    queries: q = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data)
+):
+    return queries.update_or_create(note, account_data)

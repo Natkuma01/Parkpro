@@ -13,9 +13,7 @@ import CommentList from "./comments/CommentList";
 const App = () => {
   const [parks, setParks] = useState([]);
   const [userData, setUserData] = useState({});
-
   const baseUrl = "http://localhost:8000";
-
   async function fetchParks() {
     const nat_URL = `${baseUrl}/api/parks`;
     try {
@@ -30,7 +28,6 @@ const App = () => {
       console.error(error);
     }
   }
-
   useEffect(() => {
     fetchParks();
   }, []);
@@ -56,6 +53,6 @@ const App = () => {
       </BrowserRouter>
     </AuthProvider>
   );
-};
+  }
 
 export default App;

@@ -52,3 +52,27 @@ class TripNoteQueries:
                 return {"object_deleted": True}
         else:
             return {"message": "User not the original author of the trip note"}
+
+
+    def update_or_create(self, note, account_data):
+        search = {
+                "username": account_data.username,
+                "parkCode": note.parkCode
+        }
+        new_note = note.dict()
+        db = client[dbname]
+        found = db.notes.find_one(search)
+        if found:
+            result = db.notes.update_one(
+                search,
+                {"$set": {**new_note}},
+            )
+            if result:
+                result = db.notes.find_one(search)
+                result["id"] = str(result["_id"])
+                return result
+        else:
+            result = db.notes.insert_one(new_note)
+            if result.inserted_id:
+                result = self.get_trip_note(result.inserted_id, account_data)
+                return result
