@@ -39,7 +39,10 @@ const App = () => {
         <div className="container">
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/parks" element={<Parks parks={parks} fetchParks={fetchParks} />} />
+            <Route
+              path="/parks"
+              element={<Parks parks={parks} fetchParks={fetchParks} />}
+            />
             <Route path="/wishlist" element={<WishList parks={parks} />} />
             <Route path="/visited" element={<Visited parks={parks} />} />
             <Route path="/login" element={<SignInSide />} />
