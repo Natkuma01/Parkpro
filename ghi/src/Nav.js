@@ -62,11 +62,6 @@ function Nav() {
           >
             <img src={logo} alt="logo" />
           </Typography>
-          {token ? (
-            <Typography sx={{ color: "white" }}>Logged in</Typography>
-          ) : (
-            <Typography sx={{ color: "white" }}>Logged out</Typography>
-          )}
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
