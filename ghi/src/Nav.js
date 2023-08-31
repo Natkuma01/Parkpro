@@ -44,10 +44,6 @@ function Nav({ userData }) {
     navigate("/login");
   };
 
-  const handleLogout = async () => {
-    logout();
-    navigate("/login");
-  };
 
   return (
     <AppBar position="static" style={{ backgroundColor: "black" }}>
