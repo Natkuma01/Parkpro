@@ -8,10 +8,11 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import image1 from "./images/image1.jpg";
+import image3 from "./images/image3.jpg";
 import useToken from "@galvanize-inc/jwtdown-for-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 function Copyright(props) {
   return (
@@ -33,13 +34,14 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function Signup() {
+export default function Signup({ getData, setUserData }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const { login } = useToken();
+  const { token } = useAuthContext();
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
@@ -51,21 +53,24 @@ export default function Signup() {
     data.first_name = firstName;
     data.last_name = lastName;
 
-    const signupUrl = `http://localhost:8000/api/accounts/`
+    const signupUrl = `http://localhost:8000/api/accounts/`;
     const fetchConfig = {
-      method: 'post',
+      method: "post",
       body: JSON.stringify(data),
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     };
     const response = await fetch(signupUrl, fetchConfig);
+
     if (response.ok) {
-      login(email, password);
+      login(username, password);
+      const user = await getData(username);
+      localStorage.setItem("user", JSON.stringify(user));
+      setUserData(user);
       event.target.reset();
       navigate("/parks");
     }
-
   };
 
   return (
@@ -158,7 +163,7 @@ export default function Signup() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: `url(${image1})`,
+            backgroundImage: `url(${image3})`,
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
@@ -168,7 +173,6 @@ export default function Signup() {
             backgroundPosition: "center",
           }}
         />
-
       </Grid>
     </ThemeProvider>
   );

@@ -10,12 +10,12 @@ from models.accounts import AccountOut, AccountOutWithPassword
 class MyAuthenticator(Authenticator):
     async def get_account_data(
         self,
-        email: str,
+        username: str,
         accounts: AccountQueries,
     ):
         # Use your repo to get the account based on the
         # username (which could be an email)
-        return accounts.get_account(email)
+        return accounts.get_account(username)
 
     def get_account_getter(
         self,

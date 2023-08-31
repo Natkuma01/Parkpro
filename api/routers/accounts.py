@@ -15,6 +15,7 @@ from models.shared import Deleted, Error
 from models.accounts import (
     AccountIn,
     AccountOut,
+    AccountUpdate,
     DuplicateAccountError,
     AccountForm,
     AccountToken,
@@ -22,6 +23,7 @@ from models.accounts import (
 )
 
 from queries.accounts import AccountQueries, AccountIn
+from pprint import pprint
 
 
 router = APIRouter()
@@ -33,12 +35,13 @@ async def get_protected(
 ):
     return True
 
-@router.get("/api/user", response_model=AccountOut)
-async def get_user(
-    account_data: dict = Depends(authenticator.get_current_account_data),
+
+@router.get("/api/account/{username}", response_model=AccountOut)
+async def get_account(
+    username: str,
     queries: q = Depends(),
 ):
-    return queries.get_user(account_data)
+    return queries.get_account(username)
 
 
 @router.get("/token", response_model=AccountToken | None)
@@ -73,7 +76,7 @@ async def create_account(
         )
 
     form = AccountForm(
-        username=info.email,
+        username=info.username,
         password=info.password,
         )
 
@@ -82,17 +85,17 @@ async def create_account(
     return AccountToken(account=account, **token.dict())
 
 
-@router.put("/accounts/{id}", response_model=Union[AccountOut, Error])
+@router.put("/api/accounts/{id}", response_model=Union[AccountOut, Error])
 def update_account(
     id: str,
-    account: AccountIn,
+    account: AccountUpdate,
     account_data: dict = Depends(authenticator.get_current_account_data),
     queries: q = Depends(),
 ):
     return queries.update_account(account, account_data, id)
 
 
-@router.delete("/accounts/{id}", response_model=Union[Deleted, Error])
+@router.delete("/api/accounts/{id}", response_model=Union[Deleted, Error])
 def delete_account(
     account_data: dict = Depends(authenticator.get_current_account_data),
     queries: q = Depends(),
