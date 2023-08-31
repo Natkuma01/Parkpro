@@ -25,7 +25,8 @@ function Nav({ userData }) {
   const navigate = useNavigate();
   const { token } = useAuthContext();
   const { logout } = useToken();
-  const fullName = `${userData.first_name} ${userData.last_name}`;
+  const info = JSON.parse(localStorage.getItem("user"));
+  const fullName = `${info.first_name} ${info.last_name}`;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -41,11 +42,6 @@ function Nav({ userData }) {
     new Promise((resolve) => {
       localStorage.removeItem("user");
     });
-    navigate("/login");
-  };
-
-  const handleLogout = async () => {
-    logout();
     navigate("/login");
   };
 
@@ -68,7 +64,9 @@ function Nav({ userData }) {
               textDecoration: "none",
             }}
           >
+            {/* <Button component={Link} to="/parks"> */}
             <img src={logo} alt="logo" />
+            {/* </Button> */}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
