@@ -31,34 +31,23 @@ def get_TripNote(
     else:
         return record
 
-
-@router.post('/trip_notes', response_model=TripNoteOut)
-def create_trip_note(
-    trip_note: TripNoteIn,
-    queries: q = Depends(),
-    account_data: dict = Depends(authenticator.get_current_account_data),
-):
-    return queries.create_trip_note(trip_note)
-
-
-@router.put('/trip_notes/{trip_note_id}', response_model=Union[TripNoteOut, Error])
+@router.put('/trip_notes/{parkCode}', response_model=Union[TripNoteOut, Error])
 def update_trip_note(
-    trip_note_id: str,
+    parkCode: str,
     trip_note: TripNoteIn,
     queries: q = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data)
 ):
-    return queries.update_trip_note(trip_note_id, trip_note, account_data)
+    return queries.update_trip_note(parkCode, trip_note, account_data)
 
 
-@router.delete('/trip_notes/{trip_note_id}', response_model=Union[Deleted, Error])
+@router.delete('/trip_notes/{parkCode}', response_model=Union[Deleted, Error])
 def delete_trip_note(
-    trip_note_id: str,
-    trip_note: TripNoteIn,
+    parkCode: str,
     queries: q = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data)
 ):
-    return queries.delete_trip_note(trip_note_id, account_data)
+    return queries.delete_trip_note(parkCode, account_data)
 
 @router.post('/note', response_model=TripNoteOut)
 def update_or_create(

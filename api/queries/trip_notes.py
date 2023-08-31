@@ -10,8 +10,9 @@ class TripNoteQueries:
             value["id"] = str(value["_id"])
         return result
 
-    def get_trip_note(self, id, account_data):
+    def get_trip_note(self, id, account_data, parkCode="parkCode"):
         db = client[dbname]
+        print(db)
         result = db.TripNotes.find_one({"parkCode": parkCode, "username": account_data.username})
         if result:
             result["id"] = result["_id"]
@@ -53,12 +54,13 @@ class TripNoteQueries:
         else:
             return {"message": "User not the original author of the trip note"}
 
-
     def update_or_create(self, note, account_data):
+
         search = {
-                "username": account_data.username,
+                "username": note.username,
                 "parkCode": note.parkCode
         }
+
         new_note = note.dict()
         db = client[dbname]
         found = db.notes.find_one(search)
