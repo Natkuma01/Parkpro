@@ -20,6 +20,20 @@ class AccountOut(BaseModel):
     username: str
     email: str
     id: str
+    visited: list[str]
+    bucket_list: list[str]
+    avatar: dict
+
+
+class AccountUpdate(BaseModel):
+    id: str
+    first_name: str
+    last_name: str
+    username: str
+    email: str
+    avatar: dict
+
+
 
 
 class AccountOutWithPassword(AccountOut):

@@ -14,6 +14,7 @@ function Comment({
   updateComment,
 }) {
   const canManage = username === comment.username;
+  console.log("prop", username, "comment", comment.username);
   const isReplying =
     activeComment &&
     activeComment.type === "replying" &&
@@ -48,7 +49,7 @@ function Comment({
   return (
     <div className={`Comment ${comment.parent_id ? "child" : null}`}>
       <div className="title">{comment.parentID}</div>
-      {/* <div className="username">{comment.username}</div> */}
+      <div className="username">{comment.username}</div>
       <div className="content">{comment.content}</div>
       <div className="created">{dateTime}</div>
       <div className="Comment-actions">

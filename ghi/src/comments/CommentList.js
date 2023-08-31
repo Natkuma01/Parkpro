@@ -6,8 +6,13 @@ import { useState, useEffect } from "react";
 function CommentList() {
   const { token } = useAuthContext();
   const [comments, setComments] = useState([]);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(localStorage.getItem("user"));
   const [activeComment, setActiveComment] = useState(null);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    setUserData(JSON.parse(user));
+  }, []);
 
   const getReplies = (id) => {
     return comments
@@ -15,24 +20,6 @@ function CommentList() {
         return comment.parent_id === id;
       })
       .sort((a, b) => a.posted - b.posted);
-  };
-
-  const getData = async () => {
-    const fetchConfig = {
-      method: "get",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    };
-    const response = await fetch("http://localhost:8000/api/user", fetchConfig);
-    if (!response.ok) {
-      console.error("error getting data");
-    } else {
-      console.log("no error getting data");
-      const data = await response.json();
-      setUserData(data);
-    }
   };
 
   const addComment = async (title, content, username, parentID = null) => {
@@ -137,10 +124,6 @@ function CommentList() {
     });
     setComments(newComments);
   };
-
-  useEffect(() => {
-    getData();
-  }, [comments]);
 
   useEffect(() => {
     const url = `http://localhost:8000/api/comments`;

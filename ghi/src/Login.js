@@ -10,7 +10,8 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import image1 from "./images/image1.jpg";
 import useToken from "@galvanize-inc/jwtdown-for-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
@@ -33,15 +34,19 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignInSide() {
+export default function SignInSide({ getData, setUserData }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { token } = useAuthContext();
   const { login } = useToken();
   const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     login(username, password);
+    const user = await getData(username);
+    localStorage.setItem("user", JSON.stringify(user));
+    setUserData(user);
     event.target.reset();
     navigate("/parks");
   };
@@ -90,7 +95,7 @@ export default function SignInSide() {
                 required
                 fullWidth
                 id="username"
-                label="Email Address"
+                label="Username"
                 name="username"
                 autoComplete="username"
                 autoFocus
