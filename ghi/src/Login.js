@@ -48,7 +48,7 @@ export default function SignInSide({
     event.preventDefault();
     login(username, password);
     const user = await getData(username);
-    // localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("user", JSON.stringify(user));
     // setUserData(user);
     event.target.reset();
     navigate("/parks");

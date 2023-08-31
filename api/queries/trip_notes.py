@@ -69,11 +69,13 @@ class TripNoteQueries:
 
 
     def update_or_create(self, note, account_data):
+        new_note = note.dict()
+        print(type(new_note["parkCode"]))
         search = {
                 "username": account_data["username"],
-                "parkCode": note["parkCode"]
+                "parkCode": str(new_note["parkCode"])
         }
-        new_note = note.dict()
+
         db = client[dbname]
         found = db.notes.find_one(search)
         if found:
@@ -88,5 +90,5 @@ class TripNoteQueries:
         else:
             result = db.notes.insert_one(new_note)
             if result.inserted_id:
-                result = self.get_trip_note(result.inserted_id, account_data)
+                result = self.get_trip_note(new_note["parkCode"], account_data)
                 return result

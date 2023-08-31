@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Nav from "./Nav";
 import React, { useState, useEffect } from "react";
 import SignInSide from "./Login";
-import {
+import useToken, {
   AuthProvider,
   getToken,
   useAuthContext,
@@ -17,13 +17,12 @@ import Profile from "./Profile/Profile";
 import TripNote from "./Trip Notes/TripNote";
 
 const App = () => {
-  const { token } = useAuthContext();
+  const { logout } = useToken();
   const [parks, setParks] = useState([]);
-  const [liveToken, stLiveToken] = useState(null);
-  // const [userData, setUserData] = useState({});
   const userData = JSON.parse(localStorage.getItem("user"));
+
   const baseUrl = "http://localhost:8000";
-  console.log(token);
+
   const getData = async (username) => {
     const URL = `${baseUrl}/api/account/${username}`;
     try {
@@ -78,38 +77,18 @@ const App = () => {
             <Route path="/visited" element={<Visited parks={parks} />} />
             <Route
               path="/login"
-              element={
-                <SignInSide
-                  getData={getData}
-                  userData={userData}
-                  // setUserData={setUserData}
-                />
-              }
+              element={<SignInSide getData={getData} userData={userData} />}
             />
             <Route
               path="/signup"
-              element={
-                <Signup
-                  getData={getData}
-                  userData={userData}
-                  // setUserData={setUserData}
-                />
-              }
+              element={<Signup getData={getData} userData={userData} />}
             />
             <Route
               path="/comments"
               element={<CommentList userData={userData} />}
             />
             <Route path="/note" element={<TripNote userData={userData} />} />
-            <Route
-              path="/profile"
-              element={
-                <Profile
-                  userData={userData}
-                  // setUserData={setUserData}
-                />
-              }
-            />
+            <Route path="/profile" element={<Profile userData={userData} />} />
           </Routes>
         </div>
       </BrowserRouter>

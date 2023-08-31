@@ -25,8 +25,6 @@ function Nav({ userData }) {
   const navigate = useNavigate();
   const { token } = useAuthContext();
   const { logout } = useToken();
-  const info = JSON.parse(localStorage.getItem("user"));
-  const fullName = `${info.first_name} ${info.last_name}`;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -53,7 +51,7 @@ function Nav({ userData }) {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href="/parks"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -64,9 +62,7 @@ function Nav({ userData }) {
               textDecoration: "none",
             }}
           >
-            {/* <Button component={Link} to="/parks"> */}
             <img src={logo} alt="logo" />
-            {/* </Button> */}
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -77,6 +73,7 @@ function Nav({ userData }) {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
+              href="/parks"
             >
               <MenuIcon />
             </IconButton>
@@ -104,7 +101,7 @@ function Nav({ userData }) {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
                     sx={{ bgcolor: deepOrange[500] }}
-                    alt={fullName.toUpperCase()}
+                    alt="Sean"
                     src="/static/images/avatar/2.jpg"
                   />
                 </IconButton>

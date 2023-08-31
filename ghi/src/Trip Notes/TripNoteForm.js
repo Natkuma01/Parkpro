@@ -6,26 +6,31 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 
-export default function TripNoteForm({ userData, currentNote, parkCode }) {
+export default function TripNoteForm({
+  userData,
+  currentNote,
+  park,
+  tokenLoad,
+}) {
+  let contentInput = currentNote ? currentNote.content : null;
   const addOrUpdateNote = async (data) => {
+    const createdDate = currentNote.created ? currentNote.created : new Date();
     const note = {
-      username: userData.username,
-      created: currentNote.created,
-      parkCode: parkCode,
+      username: userData["username"],
+      parkCode: park.parkCode,
+      created: createdDate,
       updated: new Date(),
       ...data,
     };
-    console.log("newNote:", note);
     const url = `http://localhost:8000/api/note`;
     const fetchConfig = {
       method: "post",
       body: JSON.stringify(note),
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${tokenLoad}`,
         "Content-Type": "application/json",
       },
     };
-    console.log("config", fetchConfig);
     try {
       const response = await fetch(url, fetchConfig);
       if (!response.ok) {
@@ -41,22 +46,10 @@ export default function TripNoteForm({ userData, currentNote, parkCode }) {
     "& .MuiFormLabel-asterisk": {
       color: "white",
     },
-    "& input:valid + fieldset": {
-      borderColor: "#E0E3E7",
-      borderWidth: 1,
-    },
-    "& input:invalid + fieldset": {
-      borderColor: "red",
-      borderWidth: 1,
-    },
-    "& input:valid:focus + fieldset": {
-      borderLeftWidth: 4,
-      padding: "4px !important",
-    },
   });
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      content: "content",
+      content: contentInput,
     },
   });
   return (
@@ -68,6 +61,7 @@ export default function TripNoteForm({ userData, currentNote, parkCode }) {
       })}
       sx={{ mt: 1 }}
     >
+      <div>{token}</div>
       <ValidationTextField
         variant="outlined"
         margin="normal"
@@ -77,7 +71,7 @@ export default function TripNoteForm({ userData, currentNote, parkCode }) {
         label="Content"
         autoComplete="content"
       />
-      {true ? (
+      {token ? (
         <Button
           type="submit"
           fullWidth

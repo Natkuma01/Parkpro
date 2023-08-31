@@ -10,6 +10,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 
 import BasicRating from "./Rating";
+import TripNote from "./Trip Notes/TripNote";
 
 export default function ParkCard({ park }) {
   let randomNumber = Math.floor(Math.random() * (park.images.length - 1));
@@ -29,6 +30,7 @@ export default function ParkCard({ park }) {
           {park.description}
         </Typography>
       </CardContent>
+      <TripNote park={park} />
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />

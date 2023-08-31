@@ -2,8 +2,9 @@ import TripNoteForm from "./TripNoteForm";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import { useEffect, useState } from "react";
 
-export default function TripNote({ userData }) {
+export default function TripNote({ userData, park }) {
   const parkCode = "yell";
+  const data = JSON.parse(localStorage.getItem("user"));
   const { token } = useAuthContext();
   const [note, setNote] = useState();
   const [tokenLoad, setTokenLoad] = useState(null);
@@ -17,10 +18,8 @@ export default function TripNote({ userData }) {
         "Content-Type": "application/json",
       },
     };
-    console.log(fetchConfig, url);
     try {
       const response = await fetch(url, fetchConfig);
-      console.log(response);
       if (!response.ok) {
         console.error("Error getting trip note");
       } else {
@@ -34,13 +33,18 @@ export default function TripNote({ userData }) {
 
   useEffect(() => {
     setTokenLoad(token);
-  });
+  }, []);
 
   useEffect(() => {
     !!tokenLoad && getNote(parkCode);
   }, [tokenLoad]);
 
   return (
-    <TripNoteForm userData={userData} currentNote={note} parkCode={parkCode} />
+    <TripNoteForm
+      userData={data}
+      currentNote={note}
+      park={park}
+      tokenLoad={tokenLoad}
+    />
   );
 }
