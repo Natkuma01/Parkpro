@@ -1,5 +1,5 @@
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
-import "./Comment.css";
+import CommentForm from "./Comment.css";
 
 function Comment({
   comment,
@@ -15,7 +15,6 @@ function Comment({
   updateComment,
 }) {
   const canManage = username === comment.username;
-  console.log("prop", username, "comment", comment.username);
   const isReplying =
     activeComment &&
     activeComment.type === "replying" &&
