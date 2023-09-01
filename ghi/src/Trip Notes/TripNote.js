@@ -3,16 +3,18 @@ import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import { useEffect, useState } from "react";
 import { Button, Box } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 import { styled } from "@mui/material/styles";
 
 export default function TripNote({ userData, park }) {
   const parkCode = park.parkCode;
-  const data = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("user"));
   const { token } = useAuthContext();
   const [note, setNote] = useState();
   const [tokenLoad, setTokenLoad] = useState(null);
-  const [content, setContent] = useState("");
+  const [disabled, setDisabled] = useState(false);
+  const [content, setContent] = useState(null);
 
   const getNote = async (parkCode) => {
     const url = `http://localhost:8000/api/trip_note/${parkCode}`;
@@ -39,7 +41,7 @@ export default function TripNote({ userData, park }) {
   const addOrUpdateNote = async (data) => {
     const createdDate = note.created ? note.created : new Date();
     const noteInfo = {
-      username: userData["username"],
+      username: user["username"],
       parkCode: park.parkCode,
       created: createdDate,
       updated: new Date(),
@@ -48,12 +50,13 @@ export default function TripNote({ userData, park }) {
     const url = `http://localhost:8000/api/note`;
     const fetchConfig = {
       method: "post",
-      body: JSON.stringify(note),
+      body: JSON.stringify(noteInfo),
       headers: {
         Authorization: `Bearer ${tokenLoad}`,
         "Content-Type": "application/json",
       },
     };
+    console.log(fetchConfig);
     try {
       const response = await fetch(url, fetchConfig);
       if (!response.ok) {
@@ -79,36 +82,60 @@ export default function TripNote({ userData, park }) {
     !!tokenLoad && getNote(parkCode);
   }, [tokenLoad]);
 
+  const { register, handleSubmit, watch, setValue, getValues } = useForm({
+    defaultValues: {
+      content: "",
+    },
+  });
+
   useEffect(() => {
-    const noteContent = note ? note.content : "";
+    const noteContent = note ? note.content : null;
+    noteContent && setDisabled(!disabled);
+    setValue("content", noteContent);
     setContent(noteContent);
   }, [note]);
+
   return (
     !!note && (
       <Box
         component="form"
         noValidate
-        onSubmit={() => console.log("submit")}
+        onSubmit={handleSubmit((data) => {
+          console.log("values", getValues());
+          !disabled && addOrUpdateNote(data);
+          setDisabled(!disabled);
+        })}
         sx={{ mt: 1 }}
       >
         <ValidationTextField
-          value={content}
+          disabled={disabled}
+          {...register("content")}
           variant="outlined"
           margin="normal"
           required
           fullWidth
-          label="Content"
+          label={content ? "" : "Add a Trip Note!"}
           autoComplete="content"
-          onChange={(e) => setContent(e.target.value)}
         />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Add Note
-        </Button>
+        {disabled ? (
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Update Trip Note
+          </Button>
+        ) : (
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            {content ? "Save Changes" : "Add a Trip Note"}
+          </Button>
+        )}
       </Box>
     )
   );
