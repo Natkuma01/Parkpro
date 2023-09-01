@@ -3,6 +3,7 @@ export default async function addRemoveList(park, listName, action, token) {
   const user = JSON.parse(localStorage.getItem("user"));
   const inList = user[listName].includes(parkCode);
   let newUser = {};
+  console.log("action", action, "listname", listName, "inline", inList);
   if (action === "add") {
     if (inList) {
       console.log("park already in list");
@@ -15,30 +16,30 @@ export default async function addRemoveList(park, listName, action, token) {
     }
   } else {
     if (!inList) {
-      console.log("park already in list");
+      console.log("park not in list");
     } else {
-      const test = user.visited.filter((park) => {
-        return park.parkCode !== parkCode;
-      });
-      console.log(test);
+      const newList =
+        listName === "visited"
+          ? (user.visited = [
+              ...user.visited.filter((park) => {
+                return park !== parkCode;
+              }),
+            ])
+          : (user.bucket_list = [
+              ...user.bucket_list.filter((park) => {
+                return park !== parkCode;
+              }),
+            ]);
+
       listName === "visited"
-        ? (user.visited = [
-            ...user.visited.filter((park) => {
-              return park.parkCode !== parkCode;
-            }),
-          ])
-        : (user.bucket_list = [
-            ...user.bucket_list.filter((park) => {
-              return park.parkCode !== parkCode;
-            }),
-          ]);
+        ? (user.visited = newList)
+        : (user.bucket_list = newList);
       newUser = { ...user };
     }
   }
 
   const id = user.id;
   const account = { ...newUser };
-  console.log("sending", newUser);
   localStorage.setItem("user", JSON.stringify(account));
   const url = `http://localhost:8000/api/accounts/${id}`;
   const fetchConfig = {
