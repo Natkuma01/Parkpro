@@ -14,7 +14,6 @@ class ParksQueries:
         response = requests.get(endpoint, headers=HEADERS, params=params)
         content = json.loads(response.content)
         items = content['data']
-
         db = client[dbname]
 
         average_rating_list = db.Ratings.aggregate(

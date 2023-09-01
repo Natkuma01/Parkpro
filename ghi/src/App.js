@@ -56,6 +56,21 @@ const App = () => {
     fetchParks();
   }, []);
 
+  const getUser = async () => {
+    const user_url = `${baseUrl}/token`;
+    try {
+      const response = await fetch(user_url);
+      if (!response.ok) {
+        console.error("Error getting user data");
+      } else {
+        const data = await response.json();
+        setParks(data.parks);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <AuthProvider baseUrl={baseUrl}>
       <BrowserRouter>
@@ -94,6 +109,6 @@ const App = () => {
       </BrowserRouter>
     </AuthProvider>
   );
-};
+  };
 
 export default App;

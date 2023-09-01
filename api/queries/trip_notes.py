@@ -67,7 +67,6 @@ class TripNoteQueries:
         else:
             return {"message": "User not the original author of the trip note"}
 
-
     def update_or_create(self, note, account_data):
         new_note = note.dict()
         print(type(new_note["parkCode"]))

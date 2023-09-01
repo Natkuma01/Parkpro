@@ -1,4 +1,5 @@
-import CommentForm from "./CommentForm";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import "./Comment.css";
 
 function Comment({
   comment,
@@ -85,26 +86,22 @@ function Comment({
       )}
       {replies.length > 0 && (
         <div className="replies">
-          {replies.reverse().map((comment) => {
+          {replies.map((comment) => {
             return (
               <Comment
                 key={comment.id}
                 comment={comment}
                 replies={getReplies(comment.id)}
-                username={username}
-                activeComment={activeComment}
-                setActiveComment={setActiveComment}
-                getReplies={getReplies}
-                deleteComment={deleteComment}
-                replyComment={replyComment}
-                editComment={editComment}
-                parentID={comment.id}
-                addComment={addComment}
-                updateComment={updateComment}
-                isEditing={isEditing}
               />
             );
           })}
+        </div>
+      )}
+      {username == comment.username && (
+        <div className="Comment-actions">
+          <button>reply</button>
+          <button>edit</button>
+          <button>delete</button>
         </div>
       )}
     </div>
