@@ -3,16 +3,16 @@ import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 import { useState, useEffect } from "react";
 
-function CommentList() {
+function CommentList({ userData }) {
   const { token } = useAuthContext();
   const [comments, setComments] = useState([]);
-  const [userData, setUserData] = useState(localStorage.getItem("user"));
+  // const [userData, setUserData] = useState(localStorage.getItem("user"));
   const [activeComment, setActiveComment] = useState(null);
 
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-    setUserData(JSON.parse(user));
-  }, []);
+  // useEffect(() => {
+  //   const user = localStorage.getItem("user");
+  //   setUserData(JSON.parse(user));
+  // }, []);
 
   const getReplies = (id) => {
     return comments

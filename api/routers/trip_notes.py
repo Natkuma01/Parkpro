@@ -49,9 +49,10 @@ def delete_trip_note(
 ):
     return queries.delete_trip_note(parkCode, account_data)
 
+
 @router.post('/note', response_model=TripNoteOut)
 def update_or_create(
-    note: TripNoteIn,
+    note: TripNoteOut,
     queries: q = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data)
 ):

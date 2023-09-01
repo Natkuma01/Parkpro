@@ -25,7 +25,6 @@ function Nav({ userData }) {
   const navigate = useNavigate();
   const { token } = useAuthContext();
   const { logout } = useToken();
-  const fullName = `${userData.first_name} ${userData.last_name}`;
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -53,7 +52,7 @@ function Nav({ userData }) {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href="/parks"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -75,6 +74,7 @@ function Nav({ userData }) {
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
               color="inherit"
+              href="/parks"
             >
               <MenuIcon />
             </IconButton>
@@ -102,7 +102,7 @@ function Nav({ userData }) {
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
                     sx={{ bgcolor: deepOrange[500] }}
-                    alt={fullName.toUpperCase()}
+                    alt="Sean"
                     src="/static/images/avatar/2.jpg"
                   />
                 </IconButton>

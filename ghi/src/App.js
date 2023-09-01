@@ -2,7 +2,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Nav from "./Nav";
 import React, { useState, useEffect } from "react";
 import SignInSide from "./Login";
-import { AuthProvider, useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import useToken, {
+  AuthProvider,
+  getToken,
+  useAuthContext,
+} from "@galvanize-inc/jwtdown-for-react";
 import MainPage from "./MainPage";
 import Parks from "./Parks";
 import Visited from "./Visited";
@@ -10,10 +14,12 @@ import WishList from "./Wishlist";
 import Signup from "./Signup";
 import CommentList from "./comments/CommentList";
 import Profile from "./Profile/Profile";
+import TripNote from "./Trip Notes/TripNote";
 
 const App = () => {
+  const { logout } = useToken();
   const [parks, setParks] = useState([]);
-  const [userData, setUserData] = useState({});
+  const userData = JSON.parse(localStorage.getItem("user"));
 
   const baseUrl = "http://localhost:8000";
 
@@ -86,31 +92,18 @@ const App = () => {
             <Route path="/visited" element={<Visited parks={parks} />} />
             <Route
               path="/login"
-              element={
-                <SignInSide
-                  getData={getData}
-                  userData={userData}
-                  setUserData={setUserData}
-                />
-              }
+              element={<SignInSide getData={getData} userData={userData} />}
             />
             <Route
               path="/signup"
-              element={
-                <Signup
-                  getData={getData}
-                  userData={userData}
-                  setUserData={setUserData}
-                />
-              }
+              element={<Signup getData={getData} userData={userData} />}
             />
-            <Route path="/comments" element={<CommentList />} />
             <Route
-              path="/profile"
-              element={
-                <Profile userData={userData} setUserData={setUserData} />
-              }
+              path="/comments"
+              element={<CommentList userData={userData} />}
             />
+            <Route path="/note" element={<TripNote userData={userData} />} />
+            <Route path="/profile" element={<Profile userData={userData} />} />
           </Routes>
         </div>
       </BrowserRouter>

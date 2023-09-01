@@ -34,7 +34,10 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function SignInSide({ getData, setUserData }) {
+export default function SignInSide({
+  getData,
+  // setUserData
+}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { token } = useAuthContext();
@@ -46,7 +49,7 @@ export default function SignInSide({ getData, setUserData }) {
     login(username, password);
     const user = await getData(username);
     localStorage.setItem("user", JSON.stringify(user));
-    setUserData(user);
+    // setUserData(user);
     event.target.reset();
     navigate("/parks");
   };
