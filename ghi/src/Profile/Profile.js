@@ -1,26 +1,20 @@
-import { token } from "@galvanize-inc/jwtdown-for-react";
 import * as React from "react";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import image4 from "../images/image4.jpg";
-import useToken from "@galvanize-inc/jwtdown-for-react";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import ImageDrop from "./ImageDrop";
-import { alpha, styled } from "@mui/material/styles";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
-import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import ProfileForm from "./ProfileForm";
 
-export default function Profile({ userData, setUserData }) {
+export default function Profile({
+  userData,
+  // setUserData
+}) {
   const [avatar, setAvatar] = useState(userData.avatar);
   const defaultTheme = createTheme();
   return (
@@ -70,7 +64,10 @@ export default function Profile({ userData, setUserData }) {
             <Typography component="h1" variant="h5">
               Profile
             </Typography>
-            <ProfileForm userData={userData} setUserData={setUserData} />
+            <ProfileForm
+              userData={userData}
+              // setUserData={setUserData}
+            />
           </Box>
         </Grid>
       </Grid>

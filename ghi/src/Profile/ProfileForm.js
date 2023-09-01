@@ -1,34 +1,25 @@
 import { useForm } from "react-hook-form";
-import { token } from "@galvanize-inc/jwtdown-for-react";
 import * as React from "react";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Link from "@mui/material/Link";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import image4 from "../images/image4.jpg";
-import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import ImageDrop from "./ImageDrop";
-import { alpha, styled } from "@mui/material/styles";
-
+import { styled } from "@mui/material/styles";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
-export default function ProfileForm({ userData, setUserData }) {
+export default function ProfileForm({
+  userData,
+  // setUserData
+}) {
   const [disabled, setDisabled] = useState(true);
   const [newProfile, setNewProfile] = useState();
   const [username, setUsername] = useState(userData.username);
 
   const { token } = useAuthContext();
 
-  useEffect(() => {
-    setUserData(JSON.parse(localStorage.getItem("user")));
-  }, []);
+  // useEffect(() => {
+  //   setUserData(JSON.parse(localStorage.getItem("user")));
+  // }, []);
 
   const updateAccount = async (id, data) => {
     const account = { id: id, avatar: userData.avatar, ...data };
@@ -42,7 +33,6 @@ export default function ProfileForm({ userData, setUserData }) {
       },
     };
     try {
-      console.log(fetchConfig);
       const response = await fetch(url, fetchConfig);
       if (!response.ok) {
         console.error("Error updating profile");
@@ -72,11 +62,6 @@ export default function ProfileForm({ userData, setUserData }) {
     },
   });
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   !disabled && updateAccount(userData.id);
-  //   setDisabled(!disabled);
-  // };
   const { register, handleSubmit } = useForm({
     defaultValues: {
       email: userData.email,

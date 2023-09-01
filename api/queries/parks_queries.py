@@ -3,6 +3,7 @@ import json
 import requests
 from db import client, dbname
 from routers.comment_routers import get_all_comments
+from pprint import pprint
 
 class ParksQueries:
     def get_park_data(self):
@@ -42,6 +43,9 @@ class ParksQueries:
                 parks_list.append(item)
 
         for park in parks_list:
+            park["fullName"] = park["fullName"].replace(" National Park", "")
+
+            pprint(park["fullName"])
             for rating in average_rating_list:
                 if rating["_id"] == park["parkCode"]:
                     park["rating"] = rating['avgRating']

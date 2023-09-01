@@ -3,21 +3,20 @@ from datetime import datetime
 
 
 class TripNoteIn(BaseModel):
-    title: str
     content: str
     username: str
     parkCode: str
     created: datetime
-
+    updated: datetime
 
 
 class TripNoteOut(BaseModel):
-    id: str
-    title: str
-    content: str
-    username: str
-    parkCode: str
-    created: datetime
+    id: str | None
+    content: str | None
+    username: str | None
+    parkCode: str | None
+    created: datetime | None
+    updated: datetime | None
 
 
 class TripNotesOut(BaseModel):

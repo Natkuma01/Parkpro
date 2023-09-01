@@ -14,6 +14,8 @@ import Button from "@mui/material/Button";
 import Grid from '@mui/material/Grid';
 import ShareIcon from "@mui/icons-material/Share";
 
+import BasicRating from "./Rating";
+import TripNote from "./Trip Notes/TripNote";
 
 export default function ParkCard({ park }) {
 
