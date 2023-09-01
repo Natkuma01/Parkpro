@@ -1,9 +1,8 @@
-import TripNoteForm from "./TripNoteForm";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import { useEffect, useState } from "react";
 import { Button, Box } from "@mui/material";
 import TextField from "@mui/material/TextField";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import { styled } from "@mui/material/styles";
 
@@ -56,7 +55,6 @@ export default function TripNote({ userData, park }) {
         "Content-Type": "application/json",
       },
     };
-    console.log(fetchConfig);
     try {
       const response = await fetch(url, fetchConfig);
       if (!response.ok) {
@@ -82,7 +80,7 @@ export default function TripNote({ userData, park }) {
     !!tokenLoad && getNote(parkCode);
   }, [tokenLoad]);
 
-  const { register, handleSubmit, watch, setValue, getValues } = useForm({
+  const { register, handleSubmit, setValue, getValues } = useForm({
     defaultValues: {
       content: "",
     },
@@ -101,7 +99,6 @@ export default function TripNote({ userData, park }) {
         component="form"
         noValidate
         onSubmit={handleSubmit((data) => {
-          console.log("values", getValues());
           !disabled && addOrUpdateNote(data);
           setDisabled(!disabled);
         })}
