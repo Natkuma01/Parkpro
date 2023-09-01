@@ -26,7 +26,6 @@ export default function ParkCard({ park }) {
   const handleClick = () => {
     setIsFlipped(!isFlipped);
   };
-
   let randomNumber = Math.floor(Math.random() * (park.images.length - 1));
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const [inBucket, setInBucket] = useState(
@@ -37,7 +36,7 @@ export default function ParkCard({ park }) {
   );
 
   const handleAddRemove = (listName, action) => {
-    addRemoveList(park.parkCode, listName, action, token);
+    addRemoveList(park, listName, action, token);
     listName === "visited" ? setInVisited(!inVisited) : setInBucket(!inBucket);
   };
 
