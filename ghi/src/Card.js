@@ -30,10 +30,10 @@ export default function ParkCard({ park }) {
   let randomNumber = Math.floor(Math.random() * (park.images.length - 1));
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const [inBucket, setInBucket] = useState(
-    currentUser.bucket_list.includes(park.parkCode)
+    currentUser ? currentUser.bucket_list.includes(park.parkCode) : false
   );
   const [inVisited, setInVisited] = useState(
-    currentUser.visited.includes(park.parkCode)
+    currentUser ? currentUser.visited.includes(park.parkCode) : false
   );
 
   const handleAddRemove = (listName, action) => {
@@ -129,45 +129,52 @@ export default function ParkCard({ park }) {
             </Grid>
             <Grid sx={{ display: "flex", justifyContent: "space-evenly" }}>
               <Grid item xs={2}>
-                <CardActions disableSpacing>
-                  <Tooltip
-                    title={
-                      !inBucket
-                        ? "Add to 'Bucket list'"
-                        : "Remove from 'Bucket list'"
-                    }
-                  >
-                    <IconButton
-                      onClick={() =>
-                        handleAddRemove(
-                          "bucket_list",
-                          inBucket ? "remove" : "add"
-                        )
+                {token && (
+                  <CardActions disableSpacing>
+                    <Tooltip
+                      title={
+                        !inBucket
+                          ? "Add to 'Bucket list'"
+                          : "Remove from 'Bucket list'"
                       }
                     >
-                      <FavoriteIcon color={bucketColor} />
-                    </IconButton>
-                  </Tooltip>
-                </CardActions>
+                      <IconButton
+                        onClick={() =>
+                          handleAddRemove(
+                            "bucket_list",
+                            inBucket ? "remove" : "add"
+                          )
+                        }
+                      >
+                        <FavoriteIcon color={bucketColor} />
+                      </IconButton>
+                    </Tooltip>
+                  </CardActions>
+                )}
               </Grid>
               <Grid item xs={2}>
-                <CardActions disableSpacing>
-                  <Tooltip
-                    title={
-                      !inVisited
-                        ? "Add to 'Visited' list"
-                        : "Remove from 'Visited' list"
-                    }
-                  >
-                    <IconButton
-                      onClick={() =>
-                        handleAddRemove("visited", inVisited ? "remove" : "add")
+                {token && (
+                  <CardActions disableSpacing>
+                    <Tooltip
+                      title={
+                        !inVisited
+                          ? "Add to 'Visited' list"
+                          : "Remove from 'Visited' list"
                       }
                     >
-                      <AddPhotoAlternateOutlinedIcon color={visitedColor} />
-                    </IconButton>
-                  </Tooltip>
-                </CardActions>
+                      <IconButton
+                        onClick={() =>
+                          handleAddRemove(
+                            "visited",
+                            inVisited ? "remove" : "add"
+                          )
+                        }
+                      >
+                        <AddPhotoAlternateOutlinedIcon color={visitedColor} />
+                      </IconButton>
+                    </Tooltip>
+                  </CardActions>
+                )}
               </Grid>
             </Grid>
 
