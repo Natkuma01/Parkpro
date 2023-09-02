@@ -19,7 +19,7 @@ import TripNote from "./Trip Notes/TripNote";
 const App = () => {
   const { logout } = useToken();
   const [parks, setParks] = useState([]);
-  const userData = JSON.parse(localStorage.getItem("user"));
+  const [userData, setUserData] = useState(null);
 
   const baseUrl = "http://localhost:8000";
 
@@ -88,15 +88,17 @@ const App = () => {
                 />
               }
             />
-            <Route path="/wishlist" element={<WishList parks={parks} />} />
+            <Route path="/bucketlist" element={<WishList parks={parks} />} />
             <Route path="/visited" element={<Visited parks={parks} />} />
             <Route
               path="/login"
-              element={<SignInSide getData={getData} userData={userData} />}
+              element={
+                <SignInSide getData={getData} setUserData={setUserData} />
+              }
             />
             <Route
               path="/signup"
-              element={<Signup getData={getData} userData={userData} />}
+              element={<Signup getData={getData} setUserData={setUserData} />}
             />
             <Route
               path="/comments"

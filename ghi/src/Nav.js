@@ -43,7 +43,6 @@ function Nav({ userData }) {
     navigate("/login");
   };
 
-
   return (
     <AppBar position="static" style={{ backgroundColor: "black" }}>
       <Container maxWidth="xl">
@@ -126,11 +125,11 @@ function Nav({ userData }) {
                 <MenuItem component={Link} to="/profile">
                   Profile
                 </MenuItem>
-                <MenuItem component={Link} to="/bucket_list">
+                <MenuItem component={Link} to="/bucketlist  ">
                   Bucket List
                 </MenuItem>
                 <MenuItem component={Link} to="/visited">
-                  visited
+                  Visited
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>

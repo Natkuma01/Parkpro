@@ -37,7 +37,6 @@ export default async function addRemoveList(park, listName, action, token) {
       newUser = { ...user };
     }
   }
-  console.log(" newUser", newUser);
   const id = user.id;
   const account = newUser;
   localStorage.setItem("user", JSON.stringify(account));
@@ -50,7 +49,6 @@ export default async function addRemoveList(park, listName, action, token) {
       "Content-Type": "application/json",
     },
   };
-  console.log("sending", fetchConfig.body);
   try {
     const response = await fetch(url, fetchConfig);
     if (!response.ok) {
