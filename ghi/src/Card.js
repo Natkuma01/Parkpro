@@ -11,24 +11,51 @@ import BasicRating from "./Rating";
 import ReactCardFlip from "react-card-flip";
 import { useState } from "react";
 import Button from "@mui/material/Button";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 import ShareIcon from "@mui/icons-material/Share";
-
-import BasicRating from "./Rating";
 import TripNote from "./Trip Notes/TripNote";
+import { Tooltip } from "@mui/material";
+import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
+import LoopOutlinedIcon from "@mui/icons-material/LoopOutlined";
+import addRemoveList from "./helpers/addRemoveList";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import SelectInput from "@mui/material/Select/SelectInput";
 
 export default function ParkCard({ park }) {
-
   const [isFlipped, setIsFlipped] = useState(false);
-
+  const { token } = useAuthContext();
   const handleClick = () => {
     setIsFlipped(!isFlipped);
   };
-
   let randomNumber = Math.floor(Math.random() * (park.images.length - 1));
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const [inBucket, setInBucket] = useState(
+    !currentUser ? false : currentUser.visited.includes(park.parkCode)
+  );
+  const [inVisited, setInVisited] = useState(
+    !currentUser ? false : currentUser.visited.includes(park.parkCode)
+  );
+
+  const handleAddRemove = (listName, action) => {
+    addRemoveList(park, listName, action, token);
+    listName === "visited" ? setInVisited(!inVisited) : setInBucket(!inBucket);
+  };
+
+  let visitedColor = !inVisited ? "action" : "success";
+  let bucketColor = !inBucket ? "action" : "success";
+
+  const shorten = (desc) => {
+    if (desc.length <= 215) {
+      return desc;
+    } else {
+      return desc.slice(0, 215) + "...";
+    }
+  };
+
+  const description = shorten(park.description);
 
   return (
-    <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontial">
+    <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
       <Card
         sx={{
           backgroundColor: "black",
@@ -36,26 +63,33 @@ export default function ParkCard({ park }) {
           height: "400px",
           boxShadow: "10px",
           borderRadius: "6px",
+          position: "relative",
         }}
-        onClick={handleClick}
       >
         <CardMedia
           component="img"
           image={park.images[randomNumber].url}
           alt={park.images[randomNumber].title}
           sx={{
-            height: "350px",
+            height: "87.5%",
+            display: "block",
           }}
         />
         <CardContent>
-          <Typography
-            variant="body1"
-            color="white"
-            align="center"
-          >
+          <Typography variant="body1" color="white" align="center">
             {park.fullName}
           </Typography>
         </CardContent>
+        <CardActions
+          disableSpacing
+          sx={{ position: "absolute", top: "0", right: "0" }}
+        >
+          <Tooltip title="Flip for Details" placement="top-end">
+            <IconButton onClick={handleClick}>
+              <LoopOutlinedIcon sx={{ color: "white" }} />
+            </IconButton>
+          </Tooltip>
+        </CardActions>
       </Card>
 
       <Card
@@ -65,8 +99,8 @@ export default function ParkCard({ park }) {
           height: "400px",
           boxShadow: "10px",
           borderRadius: "6px",
+          position: "relative",
         }}
-        onClick={handleClick}
       >
         <CardContent sx={{ height: "350px" }}>
           <Grid
@@ -87,19 +121,63 @@ export default function ParkCard({ park }) {
             </Grid>
             <Grid item xs={12}>
               <Typography variant="body2" color="text.secondary" align="center">
-                {park.description}
+                {description}
               </Typography>
             </Grid>
             <Grid item xs={10} sx={{ mt: "15px", pl: "10px" }}>
               <BasicRating rating={park.rating} />
             </Grid>
-            <Grid item xs={2}>
-              <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <FavoriteIcon />
-                </IconButton>
-              </CardActions>
+            <Grid sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <Grid item xs={2}>
+                {token && (
+                  <CardActions disableSpacing>
+                    <Tooltip
+                      title={
+                        !inBucket
+                          ? "Add to 'Bucket list'"
+                          : "Remove from 'Bucket list'"
+                      }
+                    >
+                      <IconButton
+                        onClick={() =>
+                          handleAddRemove(
+                            "bucket_list",
+                            inBucket ? "remove" : "add"
+                          )
+                        }
+                      >
+                        <FavoriteIcon color={bucketColor} />
+                      </IconButton>
+                    </Tooltip>
+                  </CardActions>
+                )}
+              </Grid>
+              <Grid item xs={2}>
+                {token && (
+                  <CardActions disableSpacing>
+                    <Tooltip
+                      title={
+                        !inVisited
+                          ? "Add to 'Visited' list"
+                          : "Remove from 'Visited' list"
+                      }
+                    >
+                      <IconButton
+                        onClick={() =>
+                          handleAddRemove(
+                            "visited",
+                            inVisited ? "remove" : "add"
+                          )
+                        }
+                      >
+                        <AddPhotoAlternateOutlinedIcon color={visitedColor} />
+                      </IconButton>
+                    </Tooltip>
+                  </CardActions>
+                )}
+              </Grid>
             </Grid>
+
             <CardActions>
               <Grid item xs={12}>
                 <Button variant="body2" sx={{ color: "#2dc937" }}>
@@ -109,6 +187,16 @@ export default function ParkCard({ park }) {
             </CardActions>
           </Grid>
         </CardContent>
+        <CardActions
+          disableSpacing
+          sx={{ position: "absolute", top: "0", right: "0" }}
+        >
+          <Tooltip title="Flip for Details" placement="top-end">
+            <IconButton onClick={handleClick}>
+              <LoopOutlinedIcon sx={{ color: "white" }} />
+            </IconButton>
+          </Tooltip>
+        </CardActions>
       </Card>
     </ReactCardFlip>
   );

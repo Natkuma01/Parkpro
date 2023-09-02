@@ -25,17 +25,6 @@ class AccountOut(BaseModel):
     avatar: dict
 
 
-class AccountUpdate(BaseModel):
-    id: str
-    first_name: str
-    last_name: str
-    username: str
-    email: str
-    avatar: dict
-
-
-
-
 class AccountOutWithPassword(AccountOut):
     hashed_password: str
 

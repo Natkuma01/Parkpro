@@ -14,15 +14,10 @@ export default function ProfileForm({
   const [disabled, setDisabled] = useState(true);
   const [newProfile, setNewProfile] = useState();
   const [username, setUsername] = useState(userData.username);
-
   const { token } = useAuthContext();
 
-  // useEffect(() => {
-  //   setUserData(JSON.parse(localStorage.getItem("user")));
-  // }, []);
-
   const updateAccount = async (id, data) => {
-    const account = { id: id, avatar: userData.avatar, ...data };
+    const account = { ...userData, ...data };
     const url = `http://localhost:8000/api/accounts/${id}`;
     const fetchConfig = {
       method: "put",
