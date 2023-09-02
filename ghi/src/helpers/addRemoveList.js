@@ -3,16 +3,16 @@ export default async function addRemoveList(park, listName, action, token) {
   const user = JSON.parse(localStorage.getItem("user"));
   const inList = user[listName].includes(parkCode);
   let newUser = {};
-  console.log("action", action, "listname", listName, "inline", inList);
+
   if (action === "add") {
     if (inList) {
       console.log("park already in list");
       return;
     } else {
-      newUser =
-        listName === "visited"
-          ? user.visited.push(parkCode)
-          : user.bucket_list.push(parkCode);
+      listName === "visited"
+        ? user.visited.push(parkCode)
+        : user.bucket_list.push(parkCode);
+      newUser = user;
     }
   } else {
     if (!inList) {
@@ -37,9 +37,9 @@ export default async function addRemoveList(park, listName, action, token) {
       newUser = { ...user };
     }
   }
-
+  console.log(" newUser", newUser);
   const id = user.id;
-  const account = { ...newUser };
+  const account = newUser;
   localStorage.setItem("user", JSON.stringify(account));
   const url = `http://localhost:8000/api/accounts/${id}`;
   const fetchConfig = {
@@ -50,6 +50,7 @@ export default async function addRemoveList(park, listName, action, token) {
       "Content-Type": "application/json",
     },
   };
+  console.log("sending", fetchConfig.body);
   try {
     const response = await fetch(url, fetchConfig);
     if (!response.ok) {

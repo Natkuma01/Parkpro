@@ -19,6 +19,7 @@ import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternate
 import LoopOutlinedIcon from "@mui/icons-material/LoopOutlined";
 import addRemoveList from "./helpers/addRemoveList";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import SelectInput from "@mui/material/Select/SelectInput";
 
 export default function ParkCard({ park }) {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -29,10 +30,10 @@ export default function ParkCard({ park }) {
   let randomNumber = Math.floor(Math.random() * (park.images.length - 1));
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const [inBucket, setInBucket] = useState(
-    currentUser ? currentUser.bucket_list.includes(park.parkCode) : false
+    !currentUser ? false : currentUser.visited.includes(park.parkCode)
   );
   const [inVisited, setInVisited] = useState(
-    currentUser ? currentUser.visited.includes(park.parkCode) : false
+    !currentUser ? false : currentUser.visited.includes(park.parkCode)
   );
 
   const handleAddRemove = (listName, action) => {
