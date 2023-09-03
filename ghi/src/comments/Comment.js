@@ -1,6 +1,8 @@
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import CommentForm from "./Comment.css";
 
+const user = JSON.parse(localStorage.getItem("user"));
+console.log("user", user);
 function Comment({
   comment,
   replies,
@@ -14,7 +16,7 @@ function Comment({
   addComment,
   updateComment,
 }) {
-  const canManage = username === comment.username;
+  const canManage = username === comment.username && user;
   const isReplying =
     activeComment &&
     activeComment.type === "replying" &&
@@ -53,7 +55,7 @@ function Comment({
       <div className="content">{comment.content}</div>
       <div className="created">{dateTime}</div>
       <div className="Comment-actions">
-        <button onClick={handleReply}>reply</button>
+        {user && <button onClick={handleReply}>reply</button>}
         {canManage && <button onClick={handleEdit}>edit</button>}
         {canManage && <button onClick={handleDelete}>delete</button>}
       </div>
@@ -96,7 +98,7 @@ function Comment({
           })}
         </div>
       )}
-      {username == comment.username && (
+      {username === comment.username && user && (
         <div className="Comment-actions">
           <button>reply</button>
           <button>edit</button>

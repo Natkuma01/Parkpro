@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 function CommentList({ userData }) {
   const { token } = useAuthContext();
   const [comments, setComments] = useState([]);
-  // const [userData, setUserData] = useState(localStorage.getItem("user"));
+
   const [activeComment, setActiveComment] = useState(null);
 
   // useEffect(() => {
@@ -149,14 +149,16 @@ function CommentList({ userData }) {
     <div className="CommentList">
       <h3>Comments</h3>
       <div className="Comment-Form-Title">Write a Comment</div>
-      <CommentForm
-        submitLabel="Submit"
-        username={userData.username}
-        addComment={addComment}
-        setActiveComment={setActiveComment}
-        activeComment={activeComment}
-        updateComment={updateComment}
-      />
+      {userData && (
+        <CommentForm
+          submitLabel="Submit"
+          username={userData ? userData.username : null}
+          addComment={addComment}
+          setActiveComment={setActiveComment}
+          activeComment={activeComment}
+          updateComment={updateComment}
+        />
+      )}
       <div className="Comment-Container">
         {comments
           .filter((comment) => !comment.parent_id)
@@ -166,7 +168,7 @@ function CommentList({ userData }) {
                 key={comment.id}
                 comment={comment}
                 replies={getReplies(comment.id)}
-                username={userData.username}
+                username={comment.username}
                 activeComment={activeComment}
                 parentID={comment.id}
                 setActiveComment={setActiveComment}
