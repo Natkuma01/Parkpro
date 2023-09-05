@@ -13,6 +13,7 @@ import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import { Alert } from "@mui/material";
 
 function Copyright(props) {
   return (
@@ -40,12 +41,29 @@ export default function Signup({ getData, setUserData }) {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [error, setError] = useState(null);
   const { login } = useToken();
   const { token } = useAuthContext();
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError(false);
+
+    const checkUrl = `http://localhost:8000/api/accounts/`;
+    const checkConfig = { method: "get" };
+    const checkResponse = await fetch(checkUrl, checkConfig);
+    if (checkResponse.ok) {
+      const data = await checkResponse.json();
+      for (let item of data) {
+        console.log(item, username);
+        if (item === username) {
+          setError(true);
+          return;
+        }
+      }
+    }
+
     const data = {};
     data.email = email;
     data.username = username;
@@ -96,6 +114,13 @@ export default function Signup({ getData, setUserData }) {
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
+              {error && (
+                <Alert variant="outlined" severity="error">
+                  There ia already an account associated with this username.
+                  Please login if it is your account, or select another username
+                  to sign up.
+                </Alert>
+              )}
               <TextField
                 margin="normal"
                 required

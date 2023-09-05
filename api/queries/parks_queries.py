@@ -9,7 +9,7 @@ class ParksQueries:
     def get_park_data(self):
 
         endpoint = f"https://developer.nps.gov/api/v1/parks?"
-        HEADERS = {"X-Api-Key": os.environ["PARKS_API_KEY"], "limit": "500"}
+        HEADERS = {"X-Api-Key": os.environ["PARKS_API_KEY"], "limit": "1500"}
         params = {"limit": "1000"}
         response = requests.get(endpoint, headers=HEADERS, params=params)
         content = json.loads(response.content)
@@ -44,8 +44,6 @@ class ParksQueries:
 
         for park in parks_list:
             park["fullName"] = park["fullName"].replace(" National Park", "")
-
-            pprint(park["fullName"])
             for rating in average_rating_list:
                 if rating["_id"] == park["parkCode"]:
                     park["rating"] = rating['avgRating']

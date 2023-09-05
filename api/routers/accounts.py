@@ -43,6 +43,11 @@ async def get_account(
     return queries.get_account(username)
 
 
+@router.get("/api/accounts", response_model=list)
+async def get_accounts(queries: q = Depends()):
+    return queries.get_accounts()
+
+
 @router.get("/token", response_model=AccountToken | None)
 async def get_token(
     request: Request,
