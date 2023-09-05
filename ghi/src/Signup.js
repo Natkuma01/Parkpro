@@ -13,7 +13,9 @@ import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
-import { Alert } from "@mui/material";
+import { Alert, InputAdornment, IconButton } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 function Copyright(props) {
   return (
@@ -39,16 +41,36 @@ export default function Signup({ getData, setUserData }) {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [error, setError] = useState(null);
+  const [mismatch, setMismatch] = useState(false);
+  const [validated, setValidated] = useState(true);
   const { login } = useToken();
   const { token } = useAuthContext();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError(false);
+    setValidated(true);
+    const items = [email, username, password, firstName, lastName];
+    if (!items.every((item) => item.length > 0)) {
+      setValidated(false);
+      return;
+    }
+    if (password !== confirmPassword) {
+      setMismatch(true);
+      return;
+    }
 
     const checkUrl = `http://localhost:8000/api/accounts/`;
     const checkConfig = { method: "get" };
@@ -56,7 +78,6 @@ export default function Signup({ getData, setUserData }) {
     if (checkResponse.ok) {
       const data = await checkResponse.json();
       for (let item of data) {
-        console.log(item, username);
         if (item === username) {
           setError(true);
           return;
@@ -116,12 +137,24 @@ export default function Signup({ getData, setUserData }) {
             >
               {error && (
                 <Alert variant="outlined" severity="error">
-                  There ia already an account associated with this username.
+                  There is already an account associated with this username.
                   Please login if it is your account, or select another username
                   to sign up.
                 </Alert>
               )}
+              {!validated && (
+                <Alert variant="outlined" severity="error">
+                  Please ensure all fields are filled out.
+                </Alert>
+              )}
+              {mismatch && (
+                <Alert variant="outlined" severity="error">
+                  Your passwords do not match. Please retype them to ensure they
+                  are the same.
+                </Alert>
+              )}
               <TextField
+                error={!validated && email.length === 0}
                 margin="normal"
                 required
                 fullWidth
@@ -132,28 +165,69 @@ export default function Signup({ getData, setUserData }) {
                 onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
+                error={!validated && username.length === 0}
                 margin="normal"
-                required
+                required={true}
                 fullWidth
                 label="Username"
                 name="username"
                 autoComplete="username"
-                autoFocus
                 onChange={(e) => setUsername(e.target.value)}
               />
               <TextField
+                error={(!validated && password.length === 0) || mismatch}
                 margin="normal"
-                required
+                required={true}
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
+                type={showPassword ? "password" : "text"}
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {!showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <TextField
+                error={(!validated && password.length === 0) || mismatch}
                 margin="normal"
-                required
+                required={true}
+                fullWidth
+                name="confirmPassword"
+                label="Confirm Password"
+                type={!showPassword ? "password" : "text"}
+                autoComplete="current-password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <TextField
+                error={!validated && firstName.length === 0}
+                margin="normal"
+                required={true}
                 fullWidth
                 name="firstName"
                 label="First Name"
@@ -161,8 +235,9 @@ export default function Signup({ getData, setUserData }) {
                 onChange={(e) => setFirstName(e.target.value)}
               />
               <TextField
+                error={!validated && lastName.length === 0}
                 margin="normal"
-                required
+                required={true}
                 fullWidth
                 name="lastName"
                 label="Last Name"

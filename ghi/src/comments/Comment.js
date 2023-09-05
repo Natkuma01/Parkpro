@@ -1,8 +1,11 @@
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import CommentForm from "./Comment.css";
 
-const user = JSON.parse(localStorage.getItem("user"));
-console.log("user", user);
+let user = {};
+if (!!localStorage.getItem("user")) {
+  user = JSON.parse(localStorage.getItem("user"));
+}
+
 function Comment({
   comment,
   replies,
