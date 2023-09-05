@@ -13,6 +13,9 @@ import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useState, useEffect } from "react";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from "react-router-dom";
+import { Alert, InputAdornment, IconButton } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 function Copyright(props) {
   return (
@@ -37,14 +40,27 @@ const defaultTheme = createTheme();
 export default function SignInSide({ getData, setUserData }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [credentials, setCredentials] = useState(true);
   const { token } = useAuthContext();
   const { login } = useToken();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     login(username, password);
     const user = await getData(username);
+    if (!user) {
+      setCredentials(false);
+      return;
+    }
+    setCredentials(true);
     localStorage.setItem("user", JSON.stringify(user));
     setUserData(user);
     event.target.reset();
@@ -90,7 +106,14 @@ export default function SignInSide({ getData, setUserData }) {
               onSubmit={handleSubmit}
               sx={{ mt: 1 }}
             >
+              {!credentials && (
+                <Alert variant="outlined" severity="error">
+                  The username and/or password that you entered do not match an
+                  account in our records.
+                </Alert>
+              )}
               <TextField
+                error={!credentials}
                 margin="normal"
                 required
                 fullWidth
@@ -102,15 +125,30 @@ export default function SignInSide({ getData, setUserData }) {
                 onChange={(e) => setUsername(e.target.value)}
               />
               <TextField
+                error={!credentials}
                 margin="normal"
                 required
                 fullWidth
                 name="password"
                 label="Password"
-                type="password"
                 id="password"
+                type={!showPassword ? "password" : "text"}
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {!showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <Button
                 type="submit"
