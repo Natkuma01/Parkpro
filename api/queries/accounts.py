@@ -15,6 +15,16 @@ class AccountQueries():
                 **result
                 )
 
+    def get_accounts(self):
+        db = client[dbname]
+        result = db.accounts.find()
+        user_list = []
+        if result:
+            for account in result:
+                account["id"] = str(account["_id"])
+                del account["_id"]
+                user_list.append(account["username"])
+            return user_list
 
     def create_new_account(self, info: AccountIn, hashed_password: str) -> AccountOutWithPassword:
         info_dict = info.dict()
