@@ -9,7 +9,10 @@ import { styled } from "@mui/material/styles";
 export default function TripNote({ userData, park }) {
   const parkCode = "yell";
   // const parkCode = park.parkCode;
-  const user = JSON.parse(localStorage.getItem("user"));
+  let user = {};
+  if (!!localStorage.getItem("user")) {
+    user = JSON.parse(localStorage.getItem("user"));
+  }
   const { token } = useAuthContext();
   const [note, setNote] = useState();
   const [tokenLoad, setTokenLoad] = useState(null);

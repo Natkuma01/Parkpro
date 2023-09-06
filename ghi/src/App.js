@@ -16,14 +16,14 @@ import CommentList from "./comments/CommentList";
 import Profile from "./Profile/Profile";
 import TripNote from "./Trip Notes/TripNote";
 import ParkDetail from "./ParkDetail";
-
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 
 const App = () => {
   const { logout } = useToken();
   const [parks, setParks] = useState([]);
   const [userData, setUserData] = useState(null);
-    const [parkCode, setParkCode] = useState('');
-
+  const [parkCode, setParkCode] = useState("");
 
   const baseUrl = "http://localhost:8000";
 
@@ -84,9 +84,13 @@ const App = () => {
             <Route path="/" element={<MainPage />} />
             <Route
               path="/parks"
-                element={<Parks parks={parks} 
-                fetchParks={fetchParks} 
-                setParkCode={setParkCode} />}
+              element={
+                <Parks
+                  parks={parks}
+                  fetchParks={fetchParks}
+                  setParkCode={setParkCode}
+                />
+              }
             />
             <Route path="/bucketlist" element={<WishList parks={parks} />} />
             <Route path="/visited" element={<Visited parks={parks} />} />
@@ -106,8 +110,10 @@ const App = () => {
             />
             <Route path="/note" element={<TripNote userData={userData} />} />
             <Route path="/profile" element={<Profile userData={userData} />} />
-            <Route path="/parkdetail" element={<ParkDetail parkCode={parkCode} parks={parks} />}  />
-
+            <Route
+              path="/parkdetail"
+              element={<ParkDetail parkCode={parkCode} parks={parks} />}
+            />
           </Routes>
         </div>
       </BrowserRouter>

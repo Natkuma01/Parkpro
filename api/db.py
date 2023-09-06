@@ -2,10 +2,10 @@ import os
 import bson
 import pymongo
 
-dbhost = os.environ['MONGOHOST']
-dbname = os.environ['MONGODATABASE']
-dbuser = os.environ['MONGOUSER']
-dbpass = os.environ['MONGOPASSWORD']
+dbhost = os.environ.get('MONGOHOST')
+dbname = os.environ.get('MONGODATABASE')
+dbuser = os.environ.get('MONGOUSER')
+dbpass = os.environ.get('MONGOPASSWORD')
 mongo_string = f"mongodb://{dbuser}:{dbpass}@{dbhost}"
 
 client = pymongo.MongoClient(mongo_string)

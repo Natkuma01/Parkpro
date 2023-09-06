@@ -1,6 +1,9 @@
 export default async function addRemoveList(park, listName, action, token) {
   const parkCode = park.parkCode;
-  const user = JSON.parse(localStorage.getItem("user"));
+  let user = {};
+  if (!!localStorage.getItem("user")) {
+    user = JSON.parse(localStorage.getItem("user"));
+  }
   const inList = user[listName].includes(parkCode);
   let newUser = {};
 

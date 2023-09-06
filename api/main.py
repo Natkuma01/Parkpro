@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import os
 from routers import comment_routers, accounts, ratings, trip_notes, parks_routes
 from authenticator import authenticator
+from pprint import pprint
+from jwtdown_fastapi.authentication import Token
+
 
 app = FastAPI()
 
@@ -15,7 +18,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+print("MONGOHOST")
+x = os.environ.get('MONGOHOST')
+pprint(x)
 
 app.include_router(comment_routers.router)
 app.include_router(accounts.router)

@@ -22,7 +22,6 @@ import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import SelectInput from "@mui/material/Select/SelectInput";
 import { useNavigate } from "react-router-dom";
 
-
 export default function ParkCard({ park, setParkCode }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const { token } = useAuthContext();
@@ -38,12 +37,15 @@ export default function ParkCard({ park, setParkCode }) {
   };
 
   let randomNumber = Math.floor(Math.random() * (park.images.length - 1));
-  const currentUser = JSON.parse(localStorage.getItem("user"));
+  let user = {};
+  if (!!localStorage.getItem("user")) {
+    user = JSON.parse(localStorage.getItem("user"));
+  }
   const [inBucket, setInBucket] = useState(
-    !currentUser ? false : currentUser.visited.includes(park.parkCode)
+    !user ? false : user.visited.includes(park.parkCode)
   );
   const [inVisited, setInVisited] = useState(
-    !currentUser ? false : currentUser.visited.includes(park.parkCode)
+    !user ? false : user.visited.includes(park.parkCode)
   );
 
   const handleAddRemove = (listName, action) => {

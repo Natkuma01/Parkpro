@@ -3,16 +3,13 @@ import ParkCard from "./Card";
 import "./parkdetail.css";
 import { Grid, Link, Typography } from "@mui/material";
 import CommentList from "./comments/CommentList";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 
-
 function ParkDetail({ parkCode, parks }) {
-
   const selected_park = parks.find((park) => park.parkCode === parkCode);
   console.log(selected_park);
- 
-  
+
   return (
     <Grid container spacing={2}>
       <Grid item className="park-name" xs={12}>
@@ -20,16 +17,15 @@ function ParkDetail({ parkCode, parks }) {
       </Grid>
       <Grid item xs={1} />
       <Grid item xs={11}>
-          <Carousel dynamicHeight width="75%" showArrows>
-            {selected_park.images.map((image, index) => {
-              return (
-                <div style={{ border: '1px blue solid'}}>
-                  <img src={image.url} alt={image.altText} />
-                </div>
-              );
-            })}
-          </Carousel>
-        
+        <Carousel dynamicHeight width="75%" showArrows>
+          {selected_park.images.map((image, index) => {
+            return (
+              <div style={{ border: "1px blue solid" }}>
+                <img src={image.url} alt={image.altText} />
+              </div>
+            );
+          })}
+        </Carousel>
       </Grid>
       <Grid item xs={12} container spacing={2}>
         <Grid iten xs={1} />
@@ -56,7 +52,7 @@ function ParkDetail({ parkCode, parks }) {
 
         {/* <Grid item xs={2} />
         <Grid item xs={2}> */}
-          <h4>Addess:</h4>
+        <h4>Addess:</h4>
         {/* </Grid> */}
         <Grid item xs={8}>
           {selected_park.addresses[0].line1}

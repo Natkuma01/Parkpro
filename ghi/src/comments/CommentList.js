@@ -9,11 +9,6 @@ function CommentList({ userData }) {
 
   const [activeComment, setActiveComment] = useState(null);
 
-  // useEffect(() => {
-  //   const user = localStorage.getItem("user");
-  //   setUserData(JSON.parse(user));
-  // }, []);
-
   const getReplies = (id) => {
     return comments
       .filter((comment) => {
