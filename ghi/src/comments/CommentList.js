@@ -146,9 +146,8 @@ function CommentList({ userData }) {
   }, []);
 
   return (
-    <div className="CommentList">
-      <h3>Comments</h3>
-      <div className="Comment-Form-Title">Write a Comment</div>
+    <div>
+      <div>Write a Comment</div>
       {userData && (
         <CommentForm
           submitLabel="Submit"
@@ -159,7 +158,7 @@ function CommentList({ userData }) {
           updateComment={updateComment}
         />
       )}
-      <div className="Comment-Container">
+      <div>
         {comments
           .filter((comment) => !comment.parent_id)
           .map((comment) => {

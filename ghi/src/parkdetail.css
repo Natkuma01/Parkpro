@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+body {
+    font-family: 'Rubik', sans-serif;
+}
+
+.park-name {
+    text-align: center;
+    text-shadow: 1px 2px 3px rgba(0,0,0,0.1);
+}
+
+.magic-box {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 20px;
+    margin: 20px; 
+
+}
+ 
+
+
+

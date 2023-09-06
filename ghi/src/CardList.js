@@ -3,9 +3,8 @@ import ParkCard from "./Card";
 import FilterForm from "./FilterForm";
 import { useState, useEffect } from "react";
 import states from "states-us";
-import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
-function CardList({ parks, fetchParks }) {
+function CardList({ parks, fetchParks, setParkCode }) {
   const listOfStates = states.filter((entry) => !entry.territory);
   const [state, setState] = useState("");
 
@@ -26,8 +25,12 @@ function CardList({ parks, fetchParks }) {
             state ? park.states.split(",").includes(state) : park
           )
           .map((park, index) => (
-            <Grid xs={2} sm={4} md={4} key={index}>
-              <ParkCard park={park} key={park.parkCode} />
+            <Grid xs={2} sm={4} md={4} key={index} spacing={1}>
+              <ParkCard
+                park={park}
+                key={park.parkCode}
+                setParkCode={setParkCode}
+              />
             </Grid>
           ))}
       </Grid>
