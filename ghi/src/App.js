@@ -18,7 +18,6 @@ import TripNote from "./Trip Notes/TripNote";
 import ParkDetail from "./ParkDetail";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
-
 const App = () => {
   const { logout } = useToken();
   const [parks, setParks] = useState([]);
