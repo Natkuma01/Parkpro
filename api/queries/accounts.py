@@ -73,5 +73,9 @@ class AccountQueries():
             return {'message': 'You can only delete your own account'}
 
     def get_user(self, account_data):
+<<<<<<< HEAD
         pprint("Hello")
         pprint(account_data)
+=======
+        return account_data
+>>>>>>> comment

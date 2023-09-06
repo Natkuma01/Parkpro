@@ -12,6 +12,7 @@ function CardList({ parks, fetchParks, setParkCode }) {
     fetchParks();
   }, []);
 
+<<<<<<< HEAD
   return (
     <>
       <FilterForm states={listOfStates} setState={setState} />
@@ -35,6 +36,25 @@ function CardList({ parks, fetchParks, setParkCode }) {
           ))}
       </Grid>
     </>
+=======
+function CardList({ parks, currentUser }) {
+  return (
+    <Grid container spacing={2}>
+      {parks.map((park) => {
+        return (
+          <div>
+            <Grid xs={12} sm={6} md={4} key={park.parkCode}>
+              <ParkCard
+                park={park}
+                key={park.parkCode}
+                currentUser={currentUser}
+              />
+            </Grid>
+          </div>
+        );
+      })}
+    </Grid>
+>>>>>>> comment
   );
 }
 export default CardList;

@@ -34,6 +34,13 @@ async def get_protected(
 ):
     return True
 
+@router.get("/api/user", response_model=AccountOut)
+async def get_user(
+    account_data: dict = Depends(authenticator.get_current_account_data),
+    queries: q = Depends(),
+):
+    return queries.get_user(account_data)
+
 
 @router.get("/api/account/{username}", response_model=AccountOut)
 async def get_account(
@@ -92,7 +99,11 @@ async def create_account(
 @router.put("/api/accounts/{id}", response_model=Union[AccountOut, Error])
 def update_account(
     id: str,
+<<<<<<< HEAD
     account: AccountOut,
+=======
+    account: AccountIn,
+>>>>>>> comment
     account_data: dict = Depends(authenticator.get_current_account_data),
     queries: q = Depends(),
 ):

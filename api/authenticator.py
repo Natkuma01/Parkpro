@@ -15,7 +15,11 @@ class MyAuthenticator(Authenticator):
     ):
         # Use your repo to get the account based on the
         # username (which could be an email)
+<<<<<<< HEAD
         return accounts.get_account(username)
+=======
+        return accounts.get_account(email)
+>>>>>>> comment
 
     def get_account_getter(
         self,
@@ -30,4 +34,8 @@ class MyAuthenticator(Authenticator):
         return account.username, AccountOut(**account.dict())
 
 
+<<<<<<< HEAD
 authenticator = MyAuthenticator(os.environ.get("SIGNING_KEY"))
+=======
+authenticator = MyAuthenticator(os.environ["SIGNING_KEY"])
+>>>>>>> comment

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Grid, Typography, Box } from "@mui/material";
 
 function CommentForm({
   submitLabel,
@@ -43,6 +42,7 @@ function CommentForm({
     setContent(event.target.value);
   };
   return (
+<<<<<<< HEAD
     <Box>
       <form method="POST" onSubmit={handleSubmit}>
         <Grid container className="comment-form">
@@ -62,6 +62,30 @@ function CommentForm({
         </Grid>
       </form>
     </Box>
+=======
+    <div className="CommentForm">
+      <form method="POST" onSubmit={handleSubmit}>
+        <label htmlFor="comment-title">Title</label>
+        <input
+          type="text"
+          name="comment-title"
+          value={title}
+          // defaultValue={title}
+          onChange={handleTitleChange}
+        />
+        <label htmlFor="comment-content">Comment</label>
+        <textarea
+          name="comment-content"
+          value={content}
+          // defaultValue={content}
+          onChange={handleContentChange}
+          cols="30"
+          rows="10"
+        ></textarea>
+        <button>{submitLabel}</button>
+      </form>
+    </div>
+>>>>>>> comment
   );
 }
 
