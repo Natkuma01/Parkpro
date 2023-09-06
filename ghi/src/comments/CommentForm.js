@@ -43,54 +43,24 @@ function CommentForm({
     setContent(event.target.value);
   };
   return (
-    <Box
-      className="form-box-shadow"
-      sx={{
-        width: 400,
-        height: 500,
-        borderRadius: "7px",
-        opacity: "0.8",
-      }}
-    >
-      <Grid container sx={{ pl: "15px" }}>
-        <Grid item xs={12}>
-          <Typography className="form-font" sx={{ fontSize: 26, fontWeight: 'bold' }}>
-            Leave a comment
-          </Typography>
+    <Box>
+      <form method="POST" onSubmit={handleSubmit}>
+        <Grid container className="comment-form">
+          <Grid item xs={12}>
+            <textarea
+              className="text-box"
+              name="comment-content"
+              value={content}
+              onChange={handleContentChange}
+              placeholder="Comment"
+            ></textarea>
+          </Grid>
+          <Grid item xs={10} />
+          <Grid item xs={2}>
+            <button className="form-button">Submit</button>
+          </Grid>
         </Grid>
-        <form method="POST" onSubmit={handleSubmit}>
-          <Grid item xs={4} sx={{ pt: "10px" }}>
-            <label htmlFor="comment-title" className="form-font">
-              Title
-            </label>
-          </Grid>
-          <Grid item xs={8}>
-            <input
-              className="text-field title-field"
-              type="text"
-              name="comment-title"
-              value={title}
-              onChange={handleTitleChange}
-            />
-          </Grid>
-          <Grid item xs={12} sx={{ pt: "10px" }}>
-            <label htmlFor="comment-content" className="form-font">
-              Message
-            </label>
-          </Grid>
-          <textarea
-            className="text-field"
-            name="comment-content"
-            value={content}
-            onChange={handleContentChange}
-            cols="30"
-            rows="10"
-          ></textarea>
-          <Grid item xs={12} sx={{ p:'10px' }}>
-          <button className="form-button">Submit</button>
-          </Grid>
-        </form>
-      </Grid>
+      </form>
     </Box>
   );
 }

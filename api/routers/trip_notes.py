@@ -49,7 +49,6 @@ def delete_trip_note(
 ):
     return queries.delete_trip_note(parkCode, account_data)
 
-
 @router.post('/note', response_model=TripNoteOut)
 def update_or_create(
     note: TripNoteOut,
