@@ -20,8 +20,6 @@ class CommentQueries:
             return result
 
     def create_comment(self, comment, account_data):
-        print("Account_data")
-        pprint(account_data)
         db = client[dbname]
         comment = comment.dict()
         comment["username"] = account_data["username"]
