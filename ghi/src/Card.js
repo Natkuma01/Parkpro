@@ -22,8 +22,6 @@ import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import SelectInput from "@mui/material/Select/SelectInput";
 import { useNavigate } from "react-router-dom";
 
-export default function ParkCard({ park, setParkCode }) {
-
 export default function ParkCard({ park }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const { token } = useAuthContext();

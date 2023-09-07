@@ -11,13 +11,14 @@ export default function ProfileForm({
   userData,
   // setUserData
 }) {
+  const user = JSON.parse(localStorage.getItem("user"));
   const [disabled, setDisabled] = useState(true);
   const [newProfile, setNewProfile] = useState();
-  const [username, setUsername] = useState(userData.username);
+  const [username, setUsername] = useState(user.username);
   const { token } = useAuthContext();
 
   const updateAccount = async (id, data) => {
-    const account = { ...userData, ...data };
+    const account = { ...user, ...data };
     const url = `http://localhost:8000/api/accounts/${id}`;
     const fetchConfig = {
       method: "put",
@@ -59,10 +60,10 @@ export default function ProfileForm({
 
   const { register, handleSubmit } = useForm({
     defaultValues: {
-      email: userData.email,
-      username: userData.username,
-      first_name: userData.first_name,
-      last_name: userData.last_name,
+      email: user.email,
+      username: user.username,
+      first_name: user.first_name,
+      last_name: user.last_name,
     },
   });
   return (
@@ -70,7 +71,7 @@ export default function ProfileForm({
       component="form"
       noValidate
       onSubmit={handleSubmit((data) => {
-        !disabled && updateAccount(userData.id, data);
+        !disabled && updateAccount(user.id, data);
         setDisabled(!disabled);
       })}
       sx={{ mt: 1 }}

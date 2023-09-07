@@ -43,10 +43,7 @@ class ParksQueries:
                 parks_list.append(item)
 
         for park in parks_list:
-<<<<<<< HEAD
             park["fullName"] = park["fullName"].replace(" National Park", "")
-=======
->>>>>>> comment
             for rating in average_rating_list:
                 if rating["_id"] == park["parkCode"]:
                     park["rating"] = rating['avgRating']
