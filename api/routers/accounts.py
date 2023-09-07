@@ -99,11 +99,7 @@ async def create_account(
 @router.put("/api/accounts/{id}", response_model=Union[AccountOut, Error])
 def update_account(
     id: str,
-<<<<<<< HEAD
     account: AccountOut,
-=======
-    account: AccountIn,
->>>>>>> comment
     account_data: dict = Depends(authenticator.get_current_account_data),
     queries: q = Depends(),
 ):

@@ -15,7 +15,6 @@ export default function Profile({
   userData,
   // setUserData
 }) {
-  const [avatar, setAvatar] = useState(userData.avatar);
   const defaultTheme = createTheme();
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -49,7 +48,7 @@ export default function Profile({
               alignItems: "center",
             }}
           >
-            {!avatar && (
+            {
               <Avatar
                 sx={{
                   bgcolor: deepOrange[500],
@@ -57,10 +56,10 @@ export default function Profile({
                   width: 100,
                   height: 100,
                 }}
-                alt={`${userData.first_name} ${userData.first_name}`.toUpperCase()}
+                alt={"s"}
                 src="/static/images/avatar/2.jpg"
               />
-            )}
+            }
             <Typography component="h1" variant="h5">
               Profile
             </Typography>
