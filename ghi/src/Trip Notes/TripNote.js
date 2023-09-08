@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Button, Box } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useForm } from "react-hook-form";
-
 import { styled } from "@mui/material/styles";
+import "./tripnote.css";
 
 export default function TripNote({ userData, park }) {
   const parkCode = "yell";
@@ -98,6 +98,7 @@ export default function TripNote({ userData, park }) {
   }, [note]);
 
   return (
+    
     !!note && (
       <Box
         component="form"
@@ -108,35 +109,52 @@ export default function TripNote({ userData, park }) {
         })}
         sx={{ mt: 1 }}
       >
-        <ValidationTextField
-          disabled={disabled}
-          {...register("content")}
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          label={content ? "" : "Add a Trip Note!"}
-          autoComplete="content"
-        />
-        {disabled ? (
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Update Trip Note
-          </Button>
-        ) : (
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            {content ? "Save Changes" : "Add a Trip Note"}
-          </Button>
-        )}
+        <div className="container">
+          <div className="container-inner">
+            <div className="sticky-container">
+              <div className="sticky-outer">
+                <div className="sticky">
+                  <svg width="0" height="0">
+                    <defs>
+                      <clipPath
+                        id="stickyClip"
+                        clipPathUnits="objectBoundingBox"
+                      >
+                        <path
+                          d="M 0 0 Q 0 0.69, 0.03 0.96 0.03 0.96, 1 0.96 Q 0.96 0.69, 0.96 0 0.96 0, 0 0"
+                          stroke-linejoin="round"
+                          stroke-linecap="square"
+                        />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  <div className="sticky-content">
+                    <ValidationTextField
+                      disabled={disabled}
+                      {...register("content")}
+                      variant="standard"
+                      margin="normal"
+                      focused
+                      label={content ? "" : "Add a Trip Note!"}
+                      autoComplete="content"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="place-button">
+          {disabled ? (
+            <Button className="note-button" type="submit" variant="text">
+              Update Trip Note
+            </Button>
+          ) : (
+            <Button className="note-button" type="submit" variant="contained">
+              {content ? "Save Changes" : "Add a Trip Note"}
+            </Button>
+          )}
+        </div>
       </Box>
     )
   );

@@ -1,5 +1,6 @@
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
-import CommentForm from "./Comment.css";
+import "./Comment.css";
+import CommentForm from "./CommentForm";
 
 let user = {};
 if (!!localStorage.getItem("user")) {
@@ -54,11 +55,11 @@ function Comment({
   return (
     <div className={`Comment ${comment.parent_id ? "child" : null}`}>
       <div className="title">{comment.parentID}</div>
-      <div className="username">{comment.username}</div>
-      <div className="content">{comment.content}</div>
-      <div className="created">{dateTime}</div>
+      <div>{comment.username}</div>
+      <div className="black-box">{comment.content}</div>
+      <div className="red-box">{dateTime}</div>
       <div className="Comment-actions">
-        {user && <button onClick={handleReply}>reply</button>}
+        {user && <button className="black-box" onClick={handleReply}>reply</button>}
         {canManage && <button onClick={handleEdit}>edit</button>}
         {canManage && <button onClick={handleDelete}>delete</button>}
       </div>
@@ -89,8 +90,8 @@ function Comment({
         />
       )}
       {replies.length > 0 && (
-        <div className="replies">
-          {replies.reverse().map((comment) => {
+        <div className="black-box">
+          {replies.map((comment) => {
             return (
               <Comment
                 key={comment.id}
