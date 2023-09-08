@@ -134,18 +134,16 @@ const App = () => {
                 path="/comments"
                 element={<CommentList userData={userData} />}
               />
-              <Route path="/note" element={<TripNote userData={userData} />} />
               <Route
                 path="/profile"
                 element={<Profile userData={userData} />}
               />
             </Route>
-            <Route element={<UnprotectedRoute />}>
-              <Route
-                path="/parkdetail"
-                element={<ParkDetail parkCode={parkCode} parks={parks} />}
-              />
-            </Route>
+
+            <Route
+              path="/parkdetail"
+              element={<ParkDetail parkCode={parkCode} parks={parks} />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
