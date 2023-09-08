@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
 import Nav from "./Nav";
 import React, { useState, useEffect } from "react";
 import SignInSide from "./Login";
@@ -18,6 +24,7 @@ import TripNote from "./Trip Notes/TripNote";
 import ParkDetail from "./ParkDetail";
 
 const App = () => {
+  const token = useAuthContext();
   const { logout } = useToken();
   const [parks, setParks] = useState([]);
   const [userData, setUserData] = useState(null);
@@ -39,7 +46,6 @@ const App = () => {
       console.error(error);
     }
   };
-
   async function fetchParks() {
     const nat_URL = `${baseUrl}/api/parks`;
     try {
@@ -54,6 +60,7 @@ const App = () => {
       console.error(error);
     }
   }
+
   useEffect(() => {
     fetchParks();
   }, []);
@@ -72,6 +79,20 @@ const App = () => {
       console.error(error);
     }
   };
+  const user = JSON.parse(localStorage.getItem("user"));
+  const ProtectedRoute = () => {
+    if (!user) {
+      return <Navigate to="/login" replace />;
+    }
+    return <Outlet />;
+  };
+
+  const UnprotectedRoute = () => {
+    if (user) {
+      return <Navigate to="/parks" replace />;
+    }
+    return <Outlet />;
+  };
 
   return (
     <AuthProvider baseUrl={baseUrl}>
@@ -79,7 +100,9 @@ const App = () => {
         <Nav userData={userData} />
         <div className="container">
           <Routes>
-            <Route path="/" element={<MainPage />} />
+            <Route element={<UnprotectedRoute />}>
+              <Route path="/" element={<MainPage />} />
+            </Route>
             <Route
               path="/parks"
               element={
@@ -90,28 +113,39 @@ const App = () => {
                 />
               }
             />
-            <Route path="/bucketlist" element={<WishList parks={parks} />} />
-            <Route path="/visited" element={<Visited parks={parks} />} />
-            <Route
-              path="/login"
-              element={
-                <SignInSide getData={getData} setUserData={setUserData} />
-              }
-            />
-            <Route
-              path="/signup"
-              element={<Signup getData={getData} setUserData={setUserData} />}
-            />
-            <Route
-              path="/comments"
-              element={<CommentList userData={userData} />}
-            />
-            <Route path="/note" element={<TripNote userData={userData} />} />
-            <Route path="/profile" element={<Profile userData={userData} />} />
-            <Route
-              path="/parkdetail"
-              element={<ParkDetail parkCode={parkCode} parks={parks} />}
-            />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/bucketlist" element={<WishList parks={parks} />} />
+              <Route path="/visited" element={<Visited parks={parks} />} />
+            </Route>
+            <Route element={<UnprotectedRoute />}>
+              <Route
+                path="/login"
+                element={
+                  <SignInSide getData={getData} setUserData={setUserData} />
+                }
+              />
+              <Route
+                path="/signup"
+                element={<Signup getData={getData} setUserData={setUserData} />}
+              />
+            </Route>
+            <Route element={<ProtectedRoute />}>
+              <Route
+                path="/comments"
+                element={<CommentList userData={userData} />}
+              />
+              <Route path="/note" element={<TripNote userData={userData} />} />
+              <Route
+                path="/profile"
+                element={<Profile userData={userData} />}
+              />
+            </Route>
+            <Route element={<UnprotectedRoute />}>
+              <Route
+                path="/parkdetail"
+                element={<ParkDetail parkCode={parkCode} parks={parks} />}
+              />
+            </Route>
           </Routes>
         </div>
       </BrowserRouter>
