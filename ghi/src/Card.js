@@ -22,7 +22,6 @@ import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import SelectInput from "@mui/material/Select/SelectInput";
 import { useNavigate } from "react-router-dom";
 
-
 export default function ParkCard({ park, setParkCode }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const { token } = useAuthContext();
@@ -38,15 +37,14 @@ export default function ParkCard({ park, setParkCode }) {
   };
 
   let randomNumber = Math.floor(Math.random() * (park.images.length - 1));
-  let user = {};
-  if (!!localStorage.getItem("user")) {
-    user = JSON.parse(localStorage.getItem("user"));
-  }
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const [inBucket, setInBucket] = useState(
-    !user ? false : user.visited.includes(park.parkCode)
+    user && user.visited.includes(park.parkCode)
   );
   const [inVisited, setInVisited] = useState(
-    !user ? false : user.visited.includes(park.parkCode)
+    user && user.visited.includes(park.parkCode)
   );
 
   const handleAddRemove = (listName, action) => {
@@ -165,54 +163,51 @@ export default function ParkCard({ park, setParkCode }) {
               <BasicRating rating={park.rating} />
             </Grid>
             {/* <Grid sx={{ display: "flex", justifyContent: "space-evenly" }}> */}
-              <Grid item xs={2}>
-                {token && (
-                  <CardActions disableSpacing>
-                    <Tooltip
-                      title={
-                        !inBucket
-                          ? "Add to 'Bucket list'"
-                          : "Remove from 'Bucket list'"
+            <Grid item xs={2}>
+              {token && (
+                <CardActions disableSpacing>
+                  <Tooltip
+                    title={
+                      !inBucket
+                        ? "Add to 'Bucket list'"
+                        : "Remove from 'Bucket list'"
+                    }
+                  >
+                    <IconButton
+                      onClick={() =>
+                        handleAddRemove(
+                          "bucket_list",
+                          inBucket ? "remove" : "add"
+                        )
                       }
                     >
-                      <IconButton
-                        onClick={() =>
-                          handleAddRemove(
-                            "bucket_list",
-                            inBucket ? "remove" : "add"
-                          )
-                        }
-                      >
-                        <FavoriteIcon color={bucketColor} />
-                      </IconButton>
-                    </Tooltip>
-                  </CardActions>
-                )}
-              </Grid>
-              <Grid item xs={2}>
-                {token && (
-                  <CardActions disableSpacing>
-                    <Tooltip
-                      title={
-                        !inVisited
-                          ? "Add to 'Visited' list"
-                          : "Remove from 'Visited' list"
+                      <FavoriteIcon color={bucketColor} />
+                    </IconButton>
+                  </Tooltip>
+                </CardActions>
+              )}
+            </Grid>
+            <Grid item xs={2}>
+              {token && (
+                <CardActions disableSpacing>
+                  <Tooltip
+                    title={
+                      !inVisited
+                        ? "Add to 'Visited' list"
+                        : "Remove from 'Visited' list"
+                    }
+                  >
+                    <IconButton
+                      onClick={() =>
+                        handleAddRemove("visited", inVisited ? "remove" : "add")
                       }
                     >
-                      <IconButton
-                        onClick={() =>
-                          handleAddRemove(
-                            "visited",
-                            inVisited ? "remove" : "add"
-                          )
-                        }
-                      >
-                        <AddPhotoAlternateOutlinedIcon color={visitedColor} />
-                      </IconButton>
-                    </Tooltip>
-                  </CardActions>
-                )}
-              </Grid>
+                      <AddPhotoAlternateOutlinedIcon color={visitedColor} />
+                    </IconButton>
+                  </Tooltip>
+                </CardActions>
+              )}
+            </Grid>
             {/* </Grid> */}
 
             <CardActions>
