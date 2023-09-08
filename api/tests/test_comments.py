@@ -39,6 +39,48 @@ class MockCommentQueries:
         result.update(comment)
         return result
 
+    def update_comment(self, id, comment, account_data):
+        result = {
+            "id": "string",
+            "title": "string",
+            "content": "string",
+            "posted": "2023-09-07T21:59:03.748Z",
+            "parkCode": "string",
+            "username": "string",
+            "parent_id": "string"
+        }
+        result.update(comment)
+        return result
+
+def test_update_comment():
+    app.dependency_overrides[CommentQueries] = MockCommentQueries
+    app.dependency_overrides[authenticator.get_current_account_data] = override_account
+    MockCommentQueries.called = True
+    json = {
+        "id": "string",
+        "title": "string",
+        "content": "string",
+        "posted": "2023-09-06T19:23:22.352000+00:00",
+        "parkCode": "string",
+        "username": "string",
+        "parent_id": "string"
+    }
+
+    expected = {
+        "id": "string",
+        "title": "string",
+        "content": "string",
+        "posted": "2023-09-06T19:23:22.352000+00:00",
+        "parkCode": "string",
+        "username": "string",
+        "parent_id": "string",
+    }
+    response = client.post("/api/comments", json=json)
+    assert response.json() == expected
+    assert response.status_code == 200
+    assert MockCommentQueries.called
+    app.dependency_overrides = {}
+
 def test_create_comment():
     app.dependency_overrides[CommentQueries] = MockCommentQueries
     app.dependency_overrides[authenticator.get_current_account_data] = override_account
@@ -52,16 +94,7 @@ def test_create_comment():
         "username": "string",
         "parent_id": "string"
     }
-    account_data = {
-        "first_name": "string",
-        "last_name": "string",
-        "username": "string",
-        "email": "string",
-        "id": "string",
-        "visited": [],
-        "bucket_list": [],
-        "avatar": {},
-    }
+
     expected = {
         "id": "string",
         "title": "string",
