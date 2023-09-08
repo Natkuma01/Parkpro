@@ -1,4 +1,5 @@
 from db import client, dbname
+from pprint import pprint
 
 
 class RatingQueries:
@@ -22,10 +23,10 @@ class RatingQueries:
         db = client[dbname]
         found = db.Ratings.find_one(search)
         if found:
-            result = db.ratings.update_one(
+            result = db.Ratings.update_one(
                 search,
                 {"$set": {**new_rating}},
-            )
+                )
             if result:
                 result = db.Ratings.find_one(search)
                 result["id"] = str(result["_id"])
