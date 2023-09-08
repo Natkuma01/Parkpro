@@ -1,6 +1,5 @@
 import * as React from "react";
 import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
@@ -12,14 +11,11 @@ import ReactCardFlip from "react-card-flip";
 import { useState } from "react";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import ShareIcon from "@mui/icons-material/Share";
-import TripNote from "./Trip Notes/TripNote";
 import { Tooltip } from "@mui/material";
 import AddPhotoAlternateOutlinedIcon from "@mui/icons-material/AddPhotoAlternateOutlined";
 import LoopOutlinedIcon from "@mui/icons-material/LoopOutlined";
 import addRemoveList from "./helpers/addRemoveList";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
-import SelectInput from "@mui/material/Select/SelectInput";
 import { useNavigate } from "react-router-dom";
 
 export default function ParkCard({ park, setParkCode }) {
@@ -160,7 +156,7 @@ export default function ParkCard({ park, setParkCode }) {
               </Typography>
             </Grid>
             <Grid item xs={8} sx={{ mt: "15px", pl: "10px" }}>
-              <BasicRating rating={park.rating} />
+              <BasicRating rating={park.rating} parkCode={park.parkCode} />
             </Grid>
             {/* <Grid sx={{ display: "flex", justifyContent: "space-evenly" }}> */}
             <Grid item xs={2}>

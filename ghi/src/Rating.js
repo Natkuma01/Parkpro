@@ -8,12 +8,13 @@ export default function BasicRating({ rating, parkCode }) {
   const [value, setValue] = useState(rating);
   const { token } = useAuthContext();
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   const updateRating = async (value) => {
     const userRating = {};
-    userRating.rating = value;
+    userRating.rating = parseInt(value);
     userRating.parkCode = parkCode;
-    userRating.username = token;
-
+    userRating.username = user.username;
     const url = `http://localhost:8000/api/ratings`;
     const fetchConfig = {
       method: "post",
