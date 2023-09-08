@@ -7,7 +7,6 @@ import { styled } from "@mui/material/styles";
 import "./tripnote.css";
 
 export default function TripNote({ userData, park }) {
-  const parkCode = "yell";
   // const parkCode = park.parkCode;
   let user = {};
   if (!!localStorage.getItem("user")) {
@@ -81,7 +80,7 @@ export default function TripNote({ userData, park }) {
   }, []);
 
   useEffect(() => {
-    !!tokenLoad && getNote(parkCode);
+    !!tokenLoad && getNote(park.parkCode);
   }, [tokenLoad]);
 
   const { register, handleSubmit, setValue, getValues } = useForm({
@@ -98,7 +97,6 @@ export default function TripNote({ userData, park }) {
   }, [note]);
 
   return (
-    
     !!note && (
       <Box
         component="form"

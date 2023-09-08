@@ -8,19 +8,15 @@ import TripNote from "./Trip Notes/TripNote";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 
-
 function ParkDetail({ parkCode, parks }) {
-
   const selected_park = parks.find((park) => park.parkCode === parkCode);
-  console.log(selected_park);
- 
-  
+
   return (
     <Grid container spacing={2}>
       <Grid item className="park-name" xs={12}>
         <h1>{selected_park.fullName}</h1>
       </Grid>
-      
+
       <div className="carousel-center">
         <Grid item xs={12}>
           <Carousel dynamicHeight width="75%" showArrows>
@@ -83,7 +79,7 @@ function ParkDetail({ parkCode, parks }) {
       </Grid>
       <Grid item xs={5}>
         <h1 className="note-font">Trip Note</h1>
-        <TripNote />
+        <TripNote park={selected_park} />
       </Grid>
     </Grid>
   );
