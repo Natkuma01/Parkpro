@@ -143,7 +143,7 @@ function CommentList({ userData }) {
   return (
     <div>
       <div>Write a Comment</div>
-      {userData && (
+      {token && (
         <CommentForm
           submitLabel="Submit"
           username={userData ? userData.username : null}

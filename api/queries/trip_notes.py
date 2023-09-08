@@ -1,6 +1,5 @@
 from db import client, dbname
 from bson.objectid import ObjectId
-from pprint import pprint
 
 
 class TripNoteQueries:

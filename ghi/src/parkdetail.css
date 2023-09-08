@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
 
 body {
     font-family: 'Rubik', sans-serif;
@@ -9,13 +10,16 @@ body {
     text-shadow: 1px 2px 3px rgba(0,0,0,0.1);
 }
 
-.magic-box {
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    padding: 20px;
-    margin: 20px; 
-
+.carousel-center {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-left:  20% !important;
 }
- 
 
-
+.note-font {
+    display: flex;
+    justify-content: flex-start;
+    font-family: 'Indie Flower', cursive !important;
+}
 

@@ -22,12 +22,21 @@ import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import SelectInput from "@mui/material/Select/SelectInput";
 import { useNavigate } from "react-router-dom";
 
-export default function ParkCard({ park }) {
+
+export default function ParkCard({ park, setParkCode }) {
   const [isFlipped, setIsFlipped] = useState(false);
   const { token } = useAuthContext();
+  const navigate = useNavigate();
+
   const handleClick = () => {
     setIsFlipped(!isFlipped);
   };
+
+  const routeChange = () => {
+    setParkCode(park.parkCode);
+    navigate("/parkdetail");
+  };
+
   let randomNumber = Math.floor(Math.random() * (park.images.length - 1));
   let user = {};
   if (!!localStorage.getItem("user")) {
@@ -59,7 +68,7 @@ export default function ParkCard({ park }) {
   const description = shorten(park.description);
 
   return (
-    <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
+    <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontial">
       <Card
         sx={{
           backgroundColor: "black",
@@ -74,13 +83,21 @@ export default function ParkCard({ park }) {
           component="img"
           image={park.images[randomNumber].url}
           alt={park.images[randomNumber].title}
-          sx={{
-            height: "87.5%",
-            display: "block",
-          }}
+          sx={{ height: "87.5%", display: "block" }}
         />
+
         <CardContent>
-          <Typography variant="body1" color="white" align="center">
+          <Typography
+            variant="body1"
+            color="white"
+            align="center"
+            sx={{
+              height: "50px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
             {park.fullName}
           </Typography>
         </CardContent>
@@ -119,19 +136,35 @@ export default function ParkCard({ park }) {
                 variant="h5"
                 component="div"
                 align="center"
+                sx={{
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
               >
                 {park.fullName}
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="body2" color="text.secondary" align="center">
-                {description}
+              <Typography
+                sx={{
+                  height: "200px",
+                  whiteSpace: "wrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+                variant="body2"
+                color="text.secondary"
+                justify="stretch"
+                align="center"
+              >
+                {park.description}
               </Typography>
             </Grid>
-            <Grid item xs={10} sx={{ mt: "15px", pl: "10px" }}>
+            <Grid item xs={8} sx={{ mt: "15px", pl: "10px" }}>
               <BasicRating rating={park.rating} />
             </Grid>
-            <Grid sx={{ display: "flex", justifyContent: "space-evenly" }}>
+            {/* <Grid sx={{ display: "flex", justifyContent: "space-evenly" }}> */}
               <Grid item xs={2}>
                 {token && (
                   <CardActions disableSpacing>
@@ -180,11 +213,15 @@ export default function ParkCard({ park }) {
                   </CardActions>
                 )}
               </Grid>
-            </Grid>
+            {/* </Grid> */}
 
             <CardActions>
               <Grid item xs={12}>
-                <Button variant="body2" sx={{ color: "#2dc937" }}>
+                <Button
+                  variant="body2"
+                  onClick={routeChange}
+                  sx={{ color: "#2dc937" }}
+                >
                   Learn More
                 </Button>
               </Grid>
