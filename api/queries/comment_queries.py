@@ -26,6 +26,7 @@ class CommentQueries:
         result = db.Comments.insert_one(comment)
         if result.inserted_id:
             result = self.get_comment(result.inserted_id)
+            pprint(result)
             return result
 
     def update_comment(self, id, comment, account_data):
