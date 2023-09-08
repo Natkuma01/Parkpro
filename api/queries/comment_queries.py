@@ -53,6 +53,6 @@ class CommentQueries:
             )
 
             if result:
-                return {"object_deleted": True}
+                return {"object_deleted": "true"}
         else:
             return {"message": "User not the original author of the comment"}
