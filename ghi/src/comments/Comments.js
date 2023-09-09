@@ -1,22 +1,32 @@
-import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
-import Comment from "./Comment";
-import CommentForm from "./CommentForm";
-import { useState, useEffect } from "react";
+import * as React from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
-function CommentList() {
+import { useState, useEffect } from "react";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { dividerClasses } from "@mui/material";
+import TestComment from "./testcomment";
+import CommentForm from "./CommentForm";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+
+import ReactTimeAgo from "react-time-ago";
+TimeAgo.addDefaultLocale(en);
+
+export default function Comments() {
   const { token } = useAuthContext();
   const [comments, setComments] = useState([]);
+  const [activeComment, setActiveComment] = useState({ id: null, type: null });
 
-  const [activeComment, setActiveComment] = useState(null);
-
-  const user = localStorage.getItem("user");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const getReplies = (id) => {
     return comments
@@ -26,7 +36,12 @@ function CommentList() {
       .sort((a, b) => a.posted - b.posted);
   };
 
-  const addComment = async (title, content, username, parentID = null) => {
+  const addComment = async (
+    content,
+    username,
+    parentID = null,
+    title = null
+  ) => {
     const comment = {};
     comment.parent_id = parentID;
     comment.username = username;
@@ -99,7 +114,8 @@ function CommentList() {
     comment.content = content;
     comment.title = title;
     comment.posted = posted;
-
+    const timeAgo = new TimeAgo("en-US");
+    console.log(timeAgo.format(new Date(comment.posted)));
     const fetchConfig = {
       method: "put",
       body: JSON.stringify(comment),
@@ -148,45 +164,45 @@ function CommentList() {
 
     fetchComments();
   }, []);
-
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      <h3>Comments</h3>
-      <div className="Comment-Form-Title">Write a Comment</div>
-      {user && (
-        <CommentForm
-          submitLabel="Submit"
-          username={user ? user.username : null}
-          addComment={addComment}
-          setActiveComment={setActiveComment}
-          activeComment={activeComment}
-          updateComment={updateComment}
-        />
-      )}
-      <div className="Comment-Container">
-        {comments
-          .filter((comment) => !comment.parent_id)
-          .map((comment) => {
-            console.log("comments", comment);
-            return (
-              <Comment
-                key={comment.id}
-                comment={comment}
-                replies={getReplies(comment.id)}
-                username={comment.username}
-                activeComment={activeComment}
-                parentID={comment.id}
-                setActiveComment={setActiveComment}
-                getReplies={getReplies}
-                addComment={addComment}
-                deleteComment={deleteComment}
-                updateComment={updateComment}
-              />
-            );
-          })}
-      </div>
+    <List
+      sx={{
+        width: "100%",
+        maxWidth: 360,
+        bgcolor: "background.paper",
+      }}
+      fullwidth={true}
+    >
+      <ListItem>
+        {user && (
+          <CommentForm
+            username={user ? user.username : null}
+            addComment={addComment}
+            setActiveComment={setActiveComment}
+            activeComment={activeComment}
+            updateComment={updateComment}
+          />
+        )}
+      </ListItem>
+      {comments
+        .filter((comment) => !comment.parent_id)
+        .map((comment) => {
+          return (
+            <TestComment
+              username={user.username}
+              key={comment.id}
+              contentLength={comment.content.length}
+              replies={getReplies(comment.id)}
+              activeComment={activeComment}
+              setActiveComment={setActiveComment}
+              getReplies={getReplies}
+              addComment={addComment}
+              deleteComment={deleteComment}
+              updateComment={updateComment}
+              comment={comment}
+            />
+          );
+        })}
     </List>
   );
 }
-
-export default CommentList;

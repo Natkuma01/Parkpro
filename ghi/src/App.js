@@ -19,6 +19,7 @@ import Visited from "./Visited";
 import WishList from "./Wishlist";
 import Signup from "./Signup";
 import CommentList from "./comments/CommentList";
+import Comments from "./comments/Comments";
 import Profile from "./Profile/Profile";
 import TripNote from "./Trip Notes/TripNote";
 import ParkDetail from "./ParkDetail";
@@ -29,7 +30,7 @@ const App = () => {
   const [parks, setParks] = useState([]);
   const [userData, setUserData] = useState(null);
   const [parkCode, setParkCode] = useState("");
-
+  const token = useAuthContext();
   const baseUrl = "http://localhost:8000";
 
   const getData = async (username) => {

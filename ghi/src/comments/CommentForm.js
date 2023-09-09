@@ -1,63 +1,128 @@
-import { useState } from "react";
-import { Grid, Typography, Box } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { Box } from "@mui/material";
+import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
+import { Alert } from "@mui/material";
 
 function CommentForm({
-  submitLabel,
   addComment,
-  username,
-  parentID,
   activeComment,
   updateComment,
   setActiveComment,
-  commentID,
-  parkCode,
-  posted,
   isEditing,
+  isReplying,
+  comment,
+  parentID,
 }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
+  const {
+    register,
+    handleSubmit,
+    reset,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      content: isEditing ? comment.content : null,
+    },
+  });
+  const values = getValues();
+  const maxTitle = 20;
+  const maxComment = 140;
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    isEditing
-      ? updateComment(
-          commentID,
-          username,
-          parkCode,
-          content,
-          title,
-          posted,
-          parentID
-        )
-      : addComment(title, content, username, parentID);
-    setTitle("");
-    setContent("");
-    setActiveComment(null);
+  const handleCancel = () => {
+    reset();
+    setActiveComment({ id: null, type: null });
   };
 
-
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
-  };
   return (
-    <Box>
-      <form method="POST" onSubmit={handleSubmit}>
-        <Grid container className="comment-form">
-          <Grid item xs={12}>
-            <textarea
-              className="text-box"
-              name="comment-content"
-              value={content}
-              onChange={handleContentChange}
-              placeholder="Comment"
-            ></textarea>
-          </Grid>
-          <Grid item xs={10} />
-          <Grid item xs={2}>
-            <button className="form-button">Submit</button>
-          </Grid>
-        </Grid>
-      </form>
+    <Box
+      component="form"
+      noValidate
+      onSubmit={handleSubmit((data) => {
+        isEditing
+          ? updateComment(
+              comment.id,
+              comment.username,
+              comment.parkCode,
+              data.content,
+              data.title,
+              comment.posted,
+              comment.parent_id
+            )
+          : addComment(data.content, user.username, parentID);
+        setActiveComment({ id: null, type: null });
+        reset();
+      })}
+      sx={{ mt: 1 }}
+    >
+      {errors.content?.type === "required" && (
+        <Alert variant="outlined" severity="error">
+          You cannont submit a blank comment
+        </Alert>
+      )}
+      <TextField
+        {...register("content", { required: true })}
+        variant="outlined"
+        margin="normal"
+        required
+        fullWidth
+        label="Comment"
+        multiline
+        rows={4}
+        id="comment-form-content"
+        inputProps={{ maxLength: maxComment }}
+        focused
+        aria-invalid={errors.content ? "true" : "false"}
+      />
+
+      {!parentID && !isEditing && (
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ mt: 0, mb: 2 }}
+        >
+          Add a comment
+        </Button>
+      )}
+
+      {isReplying && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            onClick={handleCancel}
+            variant="contained"
+            sx={{ mt: 0, mb: 2, width: "47.5%" }}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 0, mb: 2, width: "47.5%" }}
+          >
+            Reply
+          </Button>
+        </Box>
+      )}
+      {isEditing && (
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Button
+            onClick={handleCancel}
+            variant="contained"
+            sx={{ mt: 0, mb: 2, width: "47.5%" }}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 0, mb: 2, width: "47.5%" }}
+          >
+            Update
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 }
