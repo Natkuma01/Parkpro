@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class CommentIn(BaseModel):
-    title: str
+    title: str | None
     content: str
     posted: datetime
     parkCode: str | None
@@ -13,7 +13,7 @@ class CommentIn(BaseModel):
 
 class CommentOut(BaseModel):
     id: str
-    title: str
+    title: str | None
     content: str
     posted: datetime
     parkCode: str | None
