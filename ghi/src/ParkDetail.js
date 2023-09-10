@@ -2,8 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import ParkCard from "./Card";
 import "./parkdetail.css";
 import { Grid, Link, Typography } from "@mui/material";
-import CommentForm from "./comments/CommentForm";
-import CommentList from "./comments/CommentList";
+import Comments from "./comments/Comments";
 import TripNote from "./Trip Notes/TripNote";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -74,12 +73,12 @@ function ParkDetail({ parkCode, parks }) {
           </Link>
         </Grid>
       </Grid>
-      <Grid item xs={7}>
-        <CommentList />
-      </Grid>
-      <Grid item xs={5}>
+      <Grid item xs={8}>
         <h1 className="note-font">Trip Note</h1>
         <TripNote park={selected_park} />
+      </Grid>
+      <Grid item xs={4}>
+        <Comments />
       </Grid>
     </Grid>
   );
