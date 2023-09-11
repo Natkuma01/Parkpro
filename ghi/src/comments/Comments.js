@@ -68,7 +68,6 @@ export default function Comments() {
       const data = await response.json();
 
       setComments([data, ...comments]);
-      console.log("comment posted");
     }
   };
 
@@ -85,8 +84,6 @@ export default function Comments() {
       const response = await fetch(del_url, fetchConfig);
       if (!response.ok) {
         console.error("Error deleting comment");
-      } else {
-        console.log("comment deleted");
       }
     } catch (error) {
       console.error(error);
@@ -115,7 +112,6 @@ export default function Comments() {
     comment.title = title;
     comment.posted = posted;
     const timeAgo = new TimeAgo("en-US");
-    console.log(timeAgo.format(new Date(comment.posted)));
     const fetchConfig = {
       method: "put",
       body: JSON.stringify(comment),
@@ -128,8 +124,6 @@ export default function Comments() {
       const response = await fetch(update_url, fetchConfig);
       if (!response.ok) {
         console.error("Error updating comment");
-      } else {
-        console.log("comment updated");
       }
     } catch (error) {
       console.error(error);

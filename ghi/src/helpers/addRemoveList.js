@@ -9,7 +9,6 @@ export default async function addRemoveList(park, listName, action, token) {
 
   if (action === "add") {
     if (inList) {
-      console.log("park already in list");
       return;
     } else {
       listName === "visited"
@@ -19,7 +18,6 @@ export default async function addRemoveList(park, listName, action, token) {
     }
   } else {
     if (!inList) {
-      console.log("park not in list");
     } else {
       const newList =
         listName === "visited"
@@ -56,8 +54,6 @@ export default async function addRemoveList(park, listName, action, token) {
     const response = await fetch(url, fetchConfig);
     if (!response.ok) {
       console.error("Error updating list");
-    } else {
-      console.log("profile updated");
     }
   } catch (error) {
     console.error(error);

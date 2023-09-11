@@ -39,7 +39,6 @@ export default function TestComment({
   updateComment,
 }) {
   const timeAgo = new TimeAgo("en-US");
-  console.log(timeAgo.format(new Date(comment.posted)));
 
   const [comments, setComments] = useState([]);
   const [expanded, setExpanded] = React.useState(false);

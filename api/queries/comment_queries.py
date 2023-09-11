@@ -1,6 +1,5 @@
 from db import client, dbname
 from bson.objectid import ObjectId
-from pprint import pprint
 
 
 class CommentQueries:
@@ -26,18 +25,17 @@ class CommentQueries:
         result = db.Comments.insert_one(comment)
         if result.inserted_id:
             result = self.get_comment(result.inserted_id)
-            pprint(result)
             return result
 
     def update_comment(self, id, comment, account_data):
         new_comment = comment.dict()
         old_comment = self.get_comment(ObjectId(id))
-        if old_comment['username'] == account_data['username']:
+        if old_comment["username"] == account_data["username"]:
             db = client[dbname]
             result = db.Comments.update_one(
                 {"_id": ObjectId(id)},
                 {"$set": {**new_comment}},
-                )
+            )
             if result:
                 result = self.get_comment(ObjectId(id))
                 return result
@@ -46,7 +44,7 @@ class CommentQueries:
 
     def delete_comment(self, id, account_data):
         comment = self.get_comment(ObjectId(id))
-        if comment['username'] == account_data['username']:
+        if comment["username"] == account_data["username"]:
             db = client[dbname]
             result = db.Comments.delete_one(
                 {"_id": ObjectId(id)},

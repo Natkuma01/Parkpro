@@ -53,7 +53,6 @@ function CommentList() {
       const data = await response.json();
 
       setComments([data, ...comments]);
-      console.log("comment posted");
     }
   };
 
@@ -70,8 +69,6 @@ function CommentList() {
       const response = await fetch(del_url, fetchConfig);
       if (!response.ok) {
         console.error("Error deleting comment");
-      } else {
-        console.log("comment deleted");
       }
     } catch (error) {
       console.error(error);
@@ -112,8 +109,6 @@ function CommentList() {
       const response = await fetch(update_url, fetchConfig);
       if (!response.ok) {
         console.error("Error updating comment");
-      } else {
-        console.log("comment updated");
       }
     } catch (error) {
       console.error(error);
@@ -167,7 +162,6 @@ function CommentList() {
         {comments
           .filter((comment) => !comment.parent_id)
           .map((comment) => {
-            console.log("comments", comment);
             return (
               <Comment
                 key={comment.id}
