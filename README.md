@@ -1,141 +1,148 @@
-# Module3 Project Gamma
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://gitlab.com/parkpro/parkpro">
+    <img src="logo.svg" alt="logo" width="80" height="80">
+  </a>
 
-## Getting started
+  <h3 align="center">ParkPro</h3>
+    <p align="center">
+      Welcome to ParkPro where your National Parks Journey starts!
+    </p>
 
-You have a project repository, now what? The next section
-lists all of the deliverables that are due at the end of the
-week. Below is some guidance for getting started on the
-tasks for this week.
+</div>
 
-## Install Extensions
 
-- Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
-- Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
+<!-- TABLE OF CONTENTS -->
+<details>
+ <summary>Table of Contents</summary>
+ <ol>
+    <li>
+      <a href="#about-the-project">About the Project</a>
+      <ul>
+        <li><a href="#design">Built With</a></li>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
+  </ol>
+</details>
 
-## Deliverables
 
-- [ ] Wire-frame diagrams
-- [ ] API documentation
-- [ ] Project is deployed to Caprover (BE, DB) & GitLab-pages (FE)
-- [ ] GitLab issue board is setup and in use (or project management tool of choice)
-- [ ] Journals
+<!-- ABOUT THE PROJECT -->
+## About the Project
 
-## Project layout
+At the core of our application is the ability to plan out and craft trips to whichever National Park you desire. You can also share your thoughts with other users about each park.
 
-The layout of the project is just like all of the projects
-you did with `docker-compose` in module #2. You will create
-a directory in the root of the repository for each service
-that you add to your project just like those previous
-projects were setup.
+### Design
 
-### Directories
+[Excalidraw Wireframes](https://excalidraw.com/#room=e39e1bd4c11e10222ed7,CLI1GwEoxakSGc9r3YFI3w)
 
-Several directories have been added to your project. The
-directories `docs` and `journals` are places for you and
-your team-mates to, respectively, put any documentation
-about your project that you create and to put your
-project-journal entries. See the _README.md_ file in each
-directory for more info.
+### Built With
 
-The other directories, `ghi` and `api`, are services, that
-you can start building off of.
+[![FastAPI][Fastapi.tiangolo.com]][Fastapi-url] &nbsp; [![React][React.js]][React-url] &nbsp; [![ReactRouter][ReactRouter.com]][ReactRouter-url]
+[![Docker][Docker.com]][Docker-url] &nbsp; [![HTML5][HTML5.com]][HTML5-url] &nbsp; [![MongoDB][mongodb.com]][MongoDB-url]
+[![Python][Python.org]][Python-url] &nbsp; [![Javascript][Javascript.com]][Javascript-url] &nbsp;
 
-Inside of `ghi` is a minimal React app that has an "under
-construction" page. It is setup similarly to all of the
-other React projects that you have worked on.
 
-Inside of `api` is a minimal FastAPI application.
-"Where are all the files?" you might ask? Well, the
-`main.py` file is the whole thing, and go take look inside
-of it... There's not even much in there..., hmm? That is
-FastAPI, we'll learn more about it in the coming days. Can
-you figure out what this little web-application does even
-though you haven't learned about FastAPI yet?
+<!-- GETTING STARTED -->
+## Getting Started
 
-Also in `api` is a directory for your migrations.
-If you choose to use PostgreSQL, then you'll want to use
-migrations to control your database. Unlike Django, where
-migrations were automatically created for you, you'll write
-yours by hand using DDL. Don't worry about not knowing what
-DDL means; we have you covered. There's a sample migration
-in there that creates two tables so you can see what they
-look like.
+### Prerequisites
 
-The Dockerfile and Dockerfile.dev run your migrations
-for you automatically.
+The installation instructions assume your system has the following software: [Google Chrome](https://www.google.com/chrome/) and [Docker](https://www.docker.com/).
 
-### Other files
+If you don't have these (or equivalent) software, please install them before proceeding.
 
-The following project files have been created as a minimal
-starting point. Please follow the guidance for each one for
-a most successful project.
+To get a local copy of Health and Swolleness up and running on your machine follow these simple steps.
 
-- `docker-compose.yaml`: there isn't much in here, just a
-  **really** simple UI and FastAPI service. Add services
-  (like a database) to this file as you did with previous
-  projects in module #2.
-- `.gitlab-ci.yml`: This is your "ci/cd" file where you will
-  configure automated unit tests, code quality checks, and
-  the building and deployment of your production system.
-  Currently, all it does is deploy an "under construction"
-  page to your production UI on GitLab and a sample backend
-  to CapRover. We will learn much more about this file.
-- `.gitignore`: This is a file that prevents unwanted files
-  from getting added to your repository, files like
-  `pyc` files, `__pycache__`, etc. We've set it up so that
-  it has a good default configuration for Python projects.
-- `.env.sample`: This file is a template to copy when
-  creating environment variables for your team. Create a
-  copy called `.env` and put your own passwords in here
-  without fear of it being committed to git (see `.env`
-  listed in `.gitignore`). You can also put team related
-  environment variables in here, things like api and signing
-  keys that shouldn't be committed; these should be
-  duplicated in your deployed environments.
+### Installation
 
-## How to complete the initial deploy
+1. Clone the [repository](https://gitlab.com/parkpro/parkpro)
 
-There will be further guidance on completing the initial
-deployment, but it just consists of these steps:
+2. Rename the .env.sample file to .env
 
-### Setup GitLab repo/project
+3. Remove the .gitlab-ci.yml file
 
-- make sure this project is in a group. If it isn't, stop
-  now and move it to a GitLab group
-- remove the fork relationship: In GitLab go to:
+6. Run `docker compose build`
 
-  Settings -> General -> Advanced -> Remove fork relationship
+7. Run `docker compose up`
 
-- add these GitLab CI/CD variables:
-  - PUBLIC_URL : this is your gitlab pages URL
-  - REACT_APP_API_HOST: enter "blank" for now
+8. Navigate to [localhost:3000](http://localhost:3000/)
 
-#### Your GitLab pages URL
 
-You can't find this in GitLab until after you've done a deploy
-but you can figure it out yourself from your GitLab project URL.
+<!-- ROADMAP -->
+## Roadmap
 
-If this is your project URL
+- [ ] Add placeholder for loading
+- [ ] User ability to upload images for avatar
+- [ ] Additional filters for activities
 
-https://gitlab.com/GROUP_NAME/PROJECT_NAME
 
-then your GitLab pages URL will be
+<!-- CONTACT -->
+## Contact
 
-https://GROUP_NAME.gitlab.io/PROJECT_NAME
+[![Contributors][sean-shield]][sean-url] &nbsp; [![Contributors][natalie-shield]][natalie-url]
 
-### Initialize CapRover
+[![Contributors][peter-shield]][peter-url]
 
-1. Attain IP address and domain from an instructor
-1. Follow the steps in the CD Cookbook in Learn.
 
-### Update GitLab CI/CD variables
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
 
-Copy the service URL for your CapRover service and then paste
-that into the value for the REACT_APP_API_HOST CI/CD variable
-in GitLab.
+[FastAPI](https://fastapi.tiangolo.com/) · [React](https://react.dev/) · [React Router](https://reactrouter.com/en/main)
 
-### Deploy it
+[Docker](https://www.docker.com/) · [Bootstrap](https://getbootstrap.com/) · [HTML5](https://developer.mozilla.org/en-US/docs/Web/HTML)
 
-Merge a change into main to kick off the initial deploy. Once the build pipeline
-finishes you should be able to see an "under construction" page on your GitLab
-pages site.
+[Python](https://www.python.org/) · [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) · [PostgreSQL](https://www.mongodb.com/)
+
+[Shields.io](https://shields.io/) · [Simple Icons](https://simpleicons.org/) · [Pexels](https://www.pexels.com/) · [Excalidraw](https://excalidraw.com/)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[project-screenshot]: screenshot.png
+
+[Fastapi.tiangolo.com]: https://img.shields.io/badge/Fastapi-009688?style=for-the-badge&logo=fastapi&logoColor=white
+[FastAPI-url]: https://fastapi.tiangolo.com/
+
+[React.js]: https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white
+[React-url]: https://reactjs.org/
+
+[Docker.com]: https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
+[Docker-url]: https://www.docker.com/
+
+[HTML5.com]: https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white
+[HTML5-url]: https://developer.mozilla.org/en-US/docs/Web/HTML
+
+[Python.org]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white
+[Python-url]: https://www.python.org/
+
+[Javascript.com]: https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=mongodb&logoColor=white
+[Javascript-url]: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+
+[MongoDB.com]: https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=postgresql&logoColor=white
+[MongoDB-url]: https://www.mongodb.com/
+
+[ReactRouter.com]: https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white
+[ReactRouter-url]: https://reactrouter.com/en/main
+
+[sean-shield]: https://img.shields.io/badge/Sean_Cunningham-0A66C2?logo=linkedin&style=for-the-badge
+[sean-url]: https://www.linkedin.com/in/sp-cunningham/
+
+[natalie-shield]: https://img.shields.io/badge/Natalie_Chan-0A66C2?logo=linkedin&style=for-the-badge
+[natalie-url]: https://www.linkedin.com/in/natalie-chan-shimin/
+
+[peter-shield]: https://img.shields.io/badge/Peter_Chiu-0A66C2?logo=linkedin&style=for-the-badge
+[peter-url]: https://www.linkedin.com/in/peter-chiu1/
