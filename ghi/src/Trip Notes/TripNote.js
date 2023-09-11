@@ -135,6 +135,8 @@ export default function TripNote({ userData, park }) {
                       focused
                       label={content ? "" : "Add a Trip Note!"}
                       autoComplete="content"
+                      multiline
+                      rows={12}
                     />
                   </div>
                 </div>

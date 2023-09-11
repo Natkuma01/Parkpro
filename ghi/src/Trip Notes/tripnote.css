@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
 
 .sticky-container {
   width: 400px;
@@ -25,7 +25,7 @@
 .sticky:before {
   box-shadow: -2px 2px 15px 0 rgba(0, 0, 0, 0.5);
   background-color: rgba(0, 0, 0, 0.25);
-  content: '';
+  content: "";
   width: 90%;
   left: 5px;
   height: 75%;
@@ -48,7 +48,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Kalam', cursive;
+  font-family: "Kalam", cursive;
   font-size: 1.25rem;
 
   clip-path: url(#stickyClip);
@@ -92,16 +92,16 @@
   border-radius: 15px 225px 255px 15px 15px 255px 225px 15px !important;
   border-style: solid !important;
   border-width: 1px !important;
-  box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px !important;
+  box-shadow: rgba(0, 0, 0, 0.2) 15px 28px 25px -18px !important;
   box-sizing: border-box !important;
   color: #41403e !important;
   cursor: pointer !important;
   display: inline-block !important;
-  font-family: 'Indie Flower', cursive !important;
+  font-family: "Indie Flower", cursive !important;
   font-size: 1rem !important;
   line-height: 10px !important;
   outline: none !important;
-  padding: .75rem !important;
+  padding: 0.75rem !important;
   text-decoration: none !important;
   transition: all 235ms ease-in-out !important;
   border-bottom-left-radius: 15px 255px !important;
@@ -114,24 +114,30 @@
 }
 
 .note-button:hover {
-  box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px !important;
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px -5px !important;
   transform: translate3d(0, 2px, 0) !important;
 }
 
 .note-button:focus {
-  box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px !important;
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 4px -6px !important;
 }
 
 .place-button {
-    display: flex;
-    justify-content: flex-end;
-    margin: 20px;
+  display: flex;
+  justify-content: flex-end;
+  margin: 20px;
 }
 
 .note-font {
-    font-family: 'Crafty Girls', cursive !important;
+  font-family: "Crafty Girls", cursive !important;
 }
 
-.black-box{
-    border: 2px solid black !important;
+.black-box {
+  border: 2px solid black !important;
+}
+
+.note-field {
+  width: 300px;
+  height: 200px;
+  font-family: "Indie Flower" cursive !important;
 }

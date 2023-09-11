@@ -23,9 +23,9 @@ import Comments from "./comments/Comments";
 import Profile from "./Profile/Profile";
 import TripNote from "./Trip Notes/TripNote";
 import ParkDetail from "./ParkDetail";
+import Detail from "./Detail/Detail";
 
 const App = () => {
-  const token = useAuthContext();
   const { logout } = useToken();
   const [parks, setParks] = useState([]);
   const [userData, setUserData] = useState(null);
@@ -143,7 +143,7 @@ const App = () => {
 
             <Route
               path="/parkdetail"
-              element={<ParkDetail parkCode={parkCode} parks={parks} />}
+              element={<Detail parkCode={parkCode} parks={parks} />}
             />
           </Routes>
         </div>
