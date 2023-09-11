@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 from main import app
 from queries.trip_notes import TripNoteQueries
 
+# Tests by Natalie Chan
 
 client = TestClient(app)
 
@@ -15,4 +16,3 @@ def test_get_all_trip_notes():
     assert response.status_code == 200
     assert response.json() == {"trip_notes":[]}
     app.dependency_overrides = {}
-  
