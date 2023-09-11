@@ -1,8 +1,6 @@
 import os
-from typing import Tuple, Union
 from fastapi import Depends
 from jwtdown_fastapi.authentication import Authenticator
-from pydantic import BaseModel
 from queries.accounts import AccountQueries
 from models.accounts import AccountOut, AccountOutWithPassword
 

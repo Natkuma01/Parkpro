@@ -2,14 +2,12 @@ from fastapi.testclient import TestClient
 from main import app
 from queries.comment_queries import CommentQueries
 from authenticator import authenticator
-from pprint import pprint
-from pydantic import BaseModel
 
 client = TestClient(app)
 
 
 async def override_account(account_data: dict):
-    return ({"account_data": account_data})
+    return {"account_data": account_data}
 
 
 class MockCommentQueries:
@@ -27,7 +25,7 @@ class MockCommentQueries:
             "posted": "2023-09-07T21:59:03.748Z",
             "parkCode": "string",
             "username": "string",
-            "parent_id": "string"
+            "parent_id": "string",
         }
         result.update(comment)
         return result
@@ -40,7 +38,7 @@ class MockCommentQueries:
             "posted": "2023-09-07T21:59:03.748Z",
             "parkCode": "string",
             "username": "string",
-            "parent_id": "string"
+            "parent_id": "string",
         }
         result.update(comment)
         return result
@@ -53,7 +51,7 @@ class MockCommentQueries:
             "posted": "2023-09-06T19:23:22.352000+00:00",
             "parkCode": "string",
             "username": "string",
-            "parent_id": "string"
+            "parent_id": "string",
         }
         return result
 
@@ -71,7 +69,9 @@ def test_get_all_comments():
 
 def test_create_comment():
     app.dependency_overrides[CommentQueries] = MockCommentQueries
-    app.dependency_overrides[authenticator.get_current_account_data] = override_account
+    app.dependency_overrides[
+        authenticator.get_current_account_data
+    ] = override_account
     MockCommentQueries.called = True
     json = {
         "id": "string",
@@ -80,7 +80,7 @@ def test_create_comment():
         "posted": "2023-09-06T19:23:22.352000+00:00",
         "parkCode": "string",
         "username": "string",
-        "parent_id": "string"
+        "parent_id": "string",
     }
 
     expected = {
@@ -102,7 +102,9 @@ def test_create_comment():
 
 def test_update_comment():
     app.dependency_overrides[CommentQueries] = MockCommentQueries
-    app.dependency_overrides[authenticator.get_current_account_data] = override_account
+    app.dependency_overrides[
+        authenticator.get_current_account_data
+    ] = override_account
     MockCommentQueries.called = True
     json = {
         "id": "string",
@@ -111,7 +113,7 @@ def test_update_comment():
         "posted": "2023-09-06T19:23:22.352000+00:00",
         "parkCode": "string",
         "username": "string",
-        "parent_id": "string"
+        "parent_id": "string",
     }
 
     expected = {
@@ -140,7 +142,7 @@ def test_get_comment():
         "posted": "2023-09-06T19:23:22.352000+00:00",
         "parkCode": "string",
         "username": "string",
-        "parent_id": "string"
+        "parent_id": "string",
     }
     response = client.get("/api/comment/{comment_id}")
     assert MockCommentQueries.called

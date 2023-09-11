@@ -6,10 +6,8 @@ from fastapi import (
     APIRouter,
     Request,
 )
-from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
 from typing import Union
-from pydantic import BaseModel
 from queries.accounts import AccountQueries as q
 from models.shared import Deleted, Error
 from models.accounts import (
@@ -20,9 +18,7 @@ from models.accounts import (
     AccountToken,
     HttpError,
 )
-
-from queries.accounts import AccountQueries, AccountIn
-from pprint import pprint
+from queries.accounts import AccountQueries
 
 
 router = APIRouter()
@@ -33,6 +29,7 @@ async def get_protected(
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     return True
+
 
 @router.get("/api/user", response_model=AccountOut)
 async def get_user(
@@ -58,7 +55,7 @@ async def get_accounts(queries: q = Depends()):
 @router.get("/token", response_model=AccountToken | None)
 async def get_token(
     request: Request,
-    account: AccountOut = Depends(authenticator.try_get_current_account_data)
+    account: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> AccountToken | None:
     if account and authenticator.cookie_name in request.cookies:
         return {
@@ -89,7 +86,7 @@ async def create_account(
     form = AccountForm(
         username=info.username,
         password=info.password,
-        )
+    )
 
     token = await authenticator.login(response, request, form, accounts)
 

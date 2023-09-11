@@ -13,8 +13,7 @@ class TripNoteQueries:
     def get_trip_note(self, parkCode, account_data):
         db = client[dbname]
         result = db.notes.find_one(
-            {"parkCode": parkCode,
-             "username": account_data["username"]}
+            {"parkCode": parkCode, "username": account_data["username"]}
         )
         if result:
             result["id"] = str(result["_id"])
@@ -41,12 +40,12 @@ class TripNoteQueries:
     def update_trip_note(self, trip_note, account_data):
         new_trip_note = trip_note.dict()
         old_trip_note = self.get_trip_note(ObjectId(trip_note.id))
-        if old_trip_note['username'] == account_data['username']:
+        if old_trip_note["username"] == account_data["username"]:
             db = client[dbname]
             result = db.Notes.update_one(
                 {"_id": ObjectId(id)},
                 {"$set": {**new_trip_note}},
-                )
+            )
             if result:
                 result = self.get_trip_note(ObjectId(trip_note.id))
                 result["id"] = str(result["_id"])
@@ -56,7 +55,7 @@ class TripNoteQueries:
 
     def delete_trip_note(self, id, account_data):
         trip_note = self.get_trip_note(ObjectId(id))
-        if trip_note['username'] == account_data['email']:
+        if trip_note["username"] == account_data["email"]:
             db = client[dbname]
             result = db.Notes.delete_one(
                 {"_id": ObjectId(id)},
@@ -68,10 +67,9 @@ class TripNoteQueries:
 
     def update_or_create(self, note, account_data):
         new_note = note.dict()
-        print(type(new_note["parkCode"]))
         search = {
-                "username": account_data["username"],
-                "parkCode": str(new_note["parkCode"])
+            "username": account_data["username"],
+            "parkCode": str(new_note["parkCode"]),
         }
 
         db = client[dbname]

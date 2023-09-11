@@ -32,8 +32,6 @@ export default function ProfileForm({
       const response = await fetch(url, fetchConfig);
       if (!response.ok) {
         console.error("Error updating profile");
-      } else {
-        console.log("profile updated");
       }
     } catch (error) {
       console.error(error);

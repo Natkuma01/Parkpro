@@ -29,8 +29,6 @@ export default function BasicRating({ rating, parkCode }) {
 
     if (!response.ok) {
       console.error("error updating rating");
-    } else {
-      console.log("rating updated");
     }
   };
 

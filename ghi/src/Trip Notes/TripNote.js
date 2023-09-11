@@ -62,8 +62,6 @@ export default function TripNote({ userData, park }) {
       const response = await fetch(url, fetchConfig);
       if (!response.ok) {
         console.error("Error updating trip note");
-      } else {
-        console.log("trip note updated");
       }
     } catch (error) {
       console.error(error);

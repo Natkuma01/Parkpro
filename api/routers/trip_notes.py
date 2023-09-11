@@ -5,20 +5,15 @@ from models.shared import Error, Deleted
 from typing import Union
 from authenticator import authenticator
 
-router = APIRouter(
-    prefix='/api',
-    tags=['trip_notes']
-)
+router = APIRouter(prefix="/api", tags=["trip_notes"])
 
 
-@router.get('/trip_notes', response_model=TripNotesOut)
+@router.get("/trip_notes", response_model=TripNotesOut)
 def get_all_TripNotes(queries: q = Depends()):
-    return {
-        "trip_notes": queries.get_all_trip_notes()
-    }
+    return {"trip_notes": queries.get_all_trip_notes()}
 
 
-@router.get('/trip_note/{parkCode}', response_model=TripNoteOut)
+@router.get("/trip_note/{parkCode}", response_model=TripNoteOut)
 def get_TripNote(
     parkCode: str,
     response: Response,
@@ -31,28 +26,30 @@ def get_TripNote(
     else:
         return record
 
-@router.put('/trip_notes/{parkCode}', response_model=Union[TripNoteOut, Error])
+
+@router.put("/trip_notes/{parkCode}", response_model=Union[TripNoteOut, Error])
 def update_trip_note(
     parkCode: str,
     trip_note: TripNoteIn,
     queries: q = Depends(),
-    account_data: dict = Depends(authenticator.get_current_account_data)
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     return queries.update_trip_note(parkCode, trip_note, account_data)
 
 
-@router.delete('/trip_notes/{parkCode}', response_model=Union[Deleted, Error])
+@router.delete("/trip_notes/{parkCode}", response_model=Union[Deleted, Error])
 def delete_trip_note(
     parkCode: str,
     queries: q = Depends(),
-    account_data: dict = Depends(authenticator.get_current_account_data)
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     return queries.delete_trip_note(parkCode, account_data)
 
-@router.post('/note', response_model=TripNoteOut)
+
+@router.post("/note", response_model=TripNoteOut)
 def update_or_create(
     note: TripNoteOut,
     queries: q = Depends(),
-    account_data: dict = Depends(authenticator.get_current_account_data)
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ):
     return queries.update_or_create(note, account_data)
