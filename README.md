@@ -63,7 +63,7 @@ The installation instructions assume your system has the following software: [Go
 
 If you don't have these (or equivalent) software, please install them before proceeding.
 
-To get a local copy of Health and Swolleness up and running on your machine follow these simple steps.
+To get a local copy of ParkPro up and running on your machine follow these simple steps.
 
 ### Installation
 
