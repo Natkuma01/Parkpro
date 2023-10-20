@@ -67,11 +67,11 @@ To get a local copy of ParkPro up and running on your machine follow these simpl
 
 ### Installation
 
-1. Clone the [repository](https://gitlab.com/parkpro/parkpro)
+1. Clone the [repository](https://github.com/Natkuma01/Parkpro.git)
 
 2. Rename the .env.sample file to .env
 
-3. Remove the .gitlab-ci.yml file
+3. Remove the .github-ci.yml file
 
 6. Run `docker compose build`
 
