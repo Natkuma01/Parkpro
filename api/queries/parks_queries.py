@@ -10,7 +10,7 @@ class ParksQueries:
         endpoint = f'{"https://developer.nps.gov/api/v1/parks?"}'
         HEADERS = {"X-Api-Key": os.environ["PARKS_API_KEY"], "limit": "1500"}
         params = {"limit": "1000"}
-        response = requests.get(endpoint, headers=HEADERS, params=params)
+        response = requests.get(endpoint, headers=HEADERS, params=params, timeout=60)
         content = json.loads(response.content)
         items = content["data"]
         db = client[dbname]
