@@ -19,8 +19,7 @@ def get_comment(
     response: Response,
     queries: q = Depends(),
 ):
-    record = queries.get_comment(comment_id)
-    if record is None:
+    if (record := queries.get_comment(comment_id)) is None:
         response.status_code = 404
     else:
         return record

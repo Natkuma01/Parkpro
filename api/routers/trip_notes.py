@@ -20,8 +20,7 @@ def get_TripNote(
     queries: q = Depends(),
     account_data: dict = Depends(authenticator.get_current_account_data),
 ):
-    record = queries.get_trip_note(parkCode, account_data)
-    if record is None:
+    if (record := queries.get_trip_note(parkCode, account_data)) is None:
         response.status_code = 404
     else:
         return record

@@ -12,8 +12,7 @@ class CommentQueries:
 
     def get_comment(self, id):
         db = client[dbname]
-        result = db.Comments.find_one({"_id": ObjectId(id)})
-        if result:
+        if result := db.Comments.find_one({"_id": ObjectId(id)}):
             result["id"] = str(result["_id"])
             del result["_id"]
             return result

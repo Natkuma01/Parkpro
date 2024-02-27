@@ -16,13 +16,11 @@ class RatingQueries:
         search = {"username": rating.username, "parkCode": rating.parkCode}
         new_rating = rating.dict()
         db = client[dbname]
-        found = db.Ratings.find_one(search)
-        if found:
-            result = db.Ratings.update_one(
+        if found := db.Ratings.find_one(search):
+            if result := db.Ratings.update_one(
                 search,
                 {"$set": {**new_rating}},
-            )
-            if result:
+            ):
                 result = db.Ratings.find_one(search)
                 result["id"] = str(result["_id"])
                 return result

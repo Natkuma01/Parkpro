@@ -12,10 +12,9 @@ class TripNoteQueries:
 
     def get_trip_note(self, parkCode, account_data):
         db = client[dbname]
-        result = db.notes.find_one(
+        if result := db.notes.find_one(
             {"parkCode": parkCode, "username": account_data["username"]}
-        )
-        if result:
+        ):
             result["id"] = str(result["_id"])
             return result
         else:
@@ -73,13 +72,11 @@ class TripNoteQueries:
         }
 
         db = client[dbname]
-        found = db.notes.find_one(search)
-        if found:
-            result = db.notes.update_one(
+        if found := db.notes.find_one(search):
+            if result := db.notes.update_one(
                 search,
                 {"$set": {**new_note}},
-            )
-            if result:
+            ):
                 result = db.notes.find_one(search)
                 result["id"] = str(result["_id"])
                 return result

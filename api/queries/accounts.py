@@ -6,8 +6,7 @@ from db import client, dbname
 class AccountQueries:
     def get_account(self, username: str) -> AccountOutWithPassword:
         db = client[dbname]
-        result = db.accounts.find_one({"username": username})
-        if result:
+        if result := db.accounts.find_one({"username": username}):
             result["id"] = str(result["_id"])
             result["hashed_password"] = result["password"]
             del result["password"]
