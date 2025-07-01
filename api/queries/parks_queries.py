@@ -1,7 +1,7 @@
 import os
 import json
-import requests
 from db import client, dbname
+from security import safe_requests
 
 
 class ParksQueries:
@@ -10,7 +10,7 @@ class ParksQueries:
         endpoint = f'{"https://developer.nps.gov/api/v1/parks?"}'
         HEADERS = {"X-Api-Key": os.environ["PARKS_API_KEY"], "limit": "1500"}
         params = {"limit": "1000"}
-        response = requests.get(endpoint, headers=HEADERS, params=params)
+        response = safe_requests.get(endpoint, headers=HEADERS, params=params)
         content = json.loads(response.content)
         items = content["data"]
         db = client[dbname]
